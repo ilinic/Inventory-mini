@@ -35,6 +35,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -74,8 +75,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.barcode_capture);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
+        mPreview.setMinimumHeight(mPreview.getWidth());
 
         boolean autoFocus = true;
         boolean useFlash = false;
@@ -93,10 +96,23 @@ public final class BarcodeCaptureActivity extends AppCompatActivity
     @Override
     public void onDetectedQrCode(Barcode barcode) {
         if (barcode != null) {
+
+            final String barcodeText = barcode.displayValue;
+
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast toast = Toast.makeText(getApplicationContext(), barcodeText, Toast.LENGTH_SHORT);
+                    toast.setMargin(50, 50);
+                    toast.show();
+                }
+            });
+
+/*
             Intent intent = new Intent();
             intent.putExtra(BarcodeObject, barcode);
             setResult(CommonStatusCodes.SUCCESS, intent);
             finish();
+*/
         }
     }
 
@@ -114,7 +130,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity
 
     /**
      * Creates and starts the camera.
-     *
+     * <p>
      * Suppressing InlinedApi since there is a check that the minimum version is met before using
      * the constant.
      */

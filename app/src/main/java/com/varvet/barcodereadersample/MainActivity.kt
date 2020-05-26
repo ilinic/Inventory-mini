@@ -20,10 +20,10 @@ class MainActivity : AppCompatActivity() {
 
         mResultTextView = findViewById(R.id.result_textview)
 
-        findViewById<Button>(R.id.scan_barcode_button).setOnClickListener {
+        //findViewById<Button>(R.id.scan_barcode_button).setOnClickListener {
             val intent = Intent(applicationContext, BarcodeCaptureActivity::class.java)
             startActivityForResult(intent, BARCODE_READER_REQUEST_CODE)
-        }
+        //}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
-                    val p = barcode.cornerPoints
+//                    val p = barcode.cornerPoints
                     mResultTextView.text = barcode.displayValue
                 } else
                     mResultTextView.setText(R.string.no_barcode_captured)
