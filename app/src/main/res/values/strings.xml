@@ -2,7 +2,8 @@
     <string name="app_name">Inventory mini</string>
 
     <!-- Strings related to MainActivity-->
-    <string name="scan_barcode_button">Scan barcode</string>
+    <string name="scan_barcode_button">Записать</string>
+    <string name="login_button">Логин</string>
     <string name="no_barcode_captured">No barcode captured</string>
     <string name="barcode_error_format">"Error reading barcode: %1$s"</string>
 

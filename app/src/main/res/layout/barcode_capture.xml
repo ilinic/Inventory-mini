@@ -10,14 +10,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:keepScreenOn="true"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,12 +23,12 @@
         <ImageView
             android:id="@+id/logoView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="2"
+            android:layout_weight="0"
             android:contentDescription="@string/app_name"
             android:paddingLeft="50dp"
-            android:paddingTop="5dp"
+            android:paddingTop="10dp"
             android:paddingRight="50dp"
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/logo" />
@@ -38,7 +36,8 @@
         <com.varvet.barcodereadersample.camera.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="400dp"
+            android:layout_weight="1">
 
         </com.varvet.barcodereadersample.camera.CameraSourcePreview>
 
@@ -48,7 +47,7 @@
         android:id="@+id/enterCodeBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
@@ -65,10 +64,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/sendBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout1">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <ImageButton
             android:id="@+id/plusBtn"
@@ -113,22 +114,30 @@
             android:scaleType="fitCenter"
             android:tint="#888888"
             app:srcCompat="@drawable/minus" />
+
     </LinearLayout>
+    <![CDATA[
+
+    //app:srcCompat="@drawable/common_google_signin_btn_text_light_normal" />
+    />
+
+    ]]>
 
     <Button
         android:id="@+id/sendBtn"
-        style="@android:style/Widget.DeviceDefault.Button"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
+        style="@android:style/Widget.DeviceDefault.Light.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:background="@color/colorAccent"
+        android:text="@string/scan_barcode_button"
+        android:textColor="@color/colorWhite"
         android:foregroundGravity="center_horizontal"
-        android:text="Сохранить"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout2" />
-    //app:srcCompat="@drawable/common_google_signin_btn_text_light_normal" />
-    />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/descText"
