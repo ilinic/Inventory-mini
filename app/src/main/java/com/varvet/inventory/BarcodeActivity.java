@@ -16,7 +16,7 @@
  * This file and all BarcodeXXX and CameraXXX files in this project edited by
  * Daniell Algar (included due to copyright reason)
  */
-package com.varvet.barcodereadersample.barcode;
+package com.varvet.inventory;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -44,18 +44,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
-import com.varvet.barcodereadersample.R;
-import com.varvet.barcodereadersample.camera.CameraSource;
-import com.varvet.barcodereadersample.camera.CameraSourcePreview;
+import com.varvet.inventory.R;
 
 import java.io.IOException;
 
-public final class BarcodeCaptureActivity extends AppCompatActivity
+public final class BarcodeActivity extends AppCompatActivity
         implements BarcodeTracker.BarcodeGraphicTrackerCallback {
 
     private static final String TAG = "Barcode-reader";
@@ -78,7 +75,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.barcode_capture);
+        setContentView(R.layout.activity_barcode);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);

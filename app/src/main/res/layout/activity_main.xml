@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_header_selector"
-    tools:context="com.varvet.barcodereadersample.MainActivity">
+    tools:context="com.varvet.inventory.MainActivity">
 
     <ImageView
         android:id="@+id/logoView2"
@@ -39,12 +39,20 @@
         android:layout_marginStart="@android:dimen/app_icon_size"
         android:layout_marginEnd="@android:dimen/app_icon_size"
         android:layout_marginBottom="16dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:clickable="true"
+        android:cursorVisible="true"
+        android:editable="true"
+        android:enabled="true"
+        android:focusable="auto"
+        android:focusableInTouchMode="true"
         android:gravity="center"
-        android:text="TextView"
+        android:inputType="textVisiblePassword"
+        android:text="@string/userid_hint"
+        android:textColor="#7D7D7D"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/loginBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -54,12 +62,19 @@
         android:layout_marginStart="@android:dimen/app_icon_size"
         android:layout_marginEnd="@android:dimen/app_icon_size"
         android:layout_marginBottom="16dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:clickable="true"
+        android:cursorVisible="true"
+        android:editable="true"
+        android:enabled="true"
+        android:focusable="auto"
+        android:focusableInTouchMode="true"
         android:gravity="center"
-        android:text="TextView"
-
+        android:inputType="textWebEmailAddress"
+        android:text="@string/webaddress_hint"
+        android:textColor="#7D7D7D"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/userIdtextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

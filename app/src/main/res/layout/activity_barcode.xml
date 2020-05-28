@@ -33,13 +33,13 @@
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/logo" />
 
-        <com.varvet.barcodereadersample.camera.CameraSourcePreview
+        <com.varvet.inventory.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_weight="1">
 
-        </com.varvet.barcodereadersample.camera.CameraSourcePreview>
+        </com.varvet.inventory.CameraSourcePreview>
 
     </LinearLayout>
 

@@ -13,4 +13,6 @@
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="hint">Наведите камеру на QR код</string>
+    <string name="webaddress_hint">Пример: https://server.com</string>
+    <string name="userid_hint">Пример:  SecretUserId</string>
 </resources>

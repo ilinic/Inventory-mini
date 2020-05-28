@@ -1,4 +1,4 @@
-package com.varvet.barcodereadersample;
+package com.varvet.inventory;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

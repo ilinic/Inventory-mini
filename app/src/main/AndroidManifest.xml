@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.varvet.barcodereadersample">
+    package="com.varvet.inventory">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,12 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".MainActivity">
-        </activity>
+        <activity android:name=".BarcodeActivity"></activity>
 
         <activity
-            android:name=".barcode.BarcodeCaptureActivity"
+            android:name="com.varvet.inventory.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
 
             <intent-filter>
@@ -26,5 +25,5 @@
             </intent-filter>
 
         </activity>
-</application>
+    </application>
 </manifest>
