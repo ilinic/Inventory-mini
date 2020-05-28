@@ -17,11 +17,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //mResultTextView = findViewById(R.id.result_textview)
-
         findViewById<Button>(R.id.loginBtn).setOnClickListener {
-            val intent = Intent(applicationContext, BarcodeActivity::class.java)
-                    ..startActivityForResult(intent, BARCODE_READER_REQUEST_CODE)
+            val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            //startActivityForResult(intent, BARCODE_READER_REQUEST_CODE)
+            startActivity(intent)
+            //this.overridePendingTransition(0, 0);
         }
     }
 

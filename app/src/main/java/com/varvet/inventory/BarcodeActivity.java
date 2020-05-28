@@ -48,8 +48,6 @@ import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
-import com.varvet.inventory.R;
-
 import java.io.IOException;
 
 public final class BarcodeActivity extends AppCompatActivity
@@ -95,6 +93,17 @@ public final class BarcodeActivity extends AppCompatActivity
         } else {
             requestCameraPermission();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+/*
+        if (shouldAllowBack()) {
+            super.onBackPressed();
+        } else {
+            doSomething();
+        }
+*/
     }
 
     @Override
