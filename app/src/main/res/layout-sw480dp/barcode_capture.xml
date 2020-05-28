@@ -30,7 +30,7 @@
             android:layout_weight="2"
             android:contentDescription="@string/app_name"
             android:paddingLeft="50dp"
-            android:paddingTop="5dp"
+            android:paddingTop="15dp"
             android:paddingRight="50dp"
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/logo" />

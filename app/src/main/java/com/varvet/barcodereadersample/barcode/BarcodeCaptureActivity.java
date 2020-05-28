@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -81,6 +83,9 @@ public final class BarcodeCaptureActivity extends AppCompatActivity
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mPreview.setMinimumHeight(mPreview.getWidth());
+
+        TextView descTextView = (TextView) findViewById(R.id.descText);
+        descTextView.setShadowLayer(50, 0, 0, Color.WHITE);
 
         boolean autoFocus = true;
         boolean useFlash = false;
