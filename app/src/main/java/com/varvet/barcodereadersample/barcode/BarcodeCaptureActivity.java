@@ -30,6 +30,8 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -98,6 +100,15 @@ public final class BarcodeCaptureActivity extends AppCompatActivity
         if (barcode != null) {
 
             final String barcodeText = barcode.displayValue;
+
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+            // Vibrate for 500 milliseconds
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            else
+                //deprecated in API 26
+                v.vibrate(500);
 
             runOnUiThread(new Runnable() {
                 public void run() {
