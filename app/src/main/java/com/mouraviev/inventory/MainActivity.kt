@@ -9,6 +9,8 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -81,27 +83,33 @@ class MainActivity : AppCompatActivity() {
                             }
 
                             override fun onResponse(call: Call, response: Response) {
-                                if (response.isSuccessful) {
-                                    var responseBody: ResponseBody? = response.body
-
-                                    if (responseBody == null)
-                                        return
-
-                                    if (responseBody.equals("{\"err\": 0}")) {
-
-                                        edit.putString("user", useridEditText.text.toString())
-                                        edit.apply()
-
-                                        val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                                        startActivity(intent)
-                                        //showToast(responseBody.string())
-                                    }
-
-                                } else
+                                if (!response.isSuccessful) {
                                     showToast("Ошибка. Проверьте соединение и данные")
+                                    return
+                                }
+
+                                var responseBody: ResponseBody? = response.body
+
+                                if (responseBody == null) {
+                                    showToast("Ошибка. Проверьте соединение и данные")
+                                    return
+                                }
+
+                                val gson = Gson()
+                                var responseMap: Map<String, Int> = gson.fromJson(responseBody.string(), object : TypeToken<Map<String, Int>>() {}.type)
+
+                                if (responseMap["err"] != 0) {
+                                    showToast("Ошибка. Проверьте соединение и данные")
+                                    return
+                                }
+
+                                edit.putString("user", useridEditText.text.toString())
+                                edit.apply()
+
+                                val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                                startActivity(intent)
                             }
-                        }
-                )
+                        })
 
             } catch (e: Exception) {
                 showToast("Ошибка. Проверьте соединение и данные")
