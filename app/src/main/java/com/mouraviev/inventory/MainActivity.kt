@@ -1,5 +1,6 @@
 package com.mouraviev.inventory
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -35,6 +36,14 @@ class MainActivity : AppCompatActivity() {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this)
         val site = settings.getString("site", "")
+        val userId = settings.getString("user", "")
+
+        if (!userId.equals("")) {
+            val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            finish()
+        }
+
         val siteEditText: EditText = findViewById(R.id.siteTextView)
 
         if (!site.isEmpty())
@@ -55,14 +64,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             val edit: SharedPreferences.Editor = settings.edit()
-            edit.putString("site", siteEditText.text.toString())
+            edit.putString("site", siteEditText.text.toString().replace(Regex("/$"), ""))
             edit.apply()
 
             val request: Request
 
             try {
                 request = Request.Builder()
-                        .url(siteEditText.text.toString())
+                        .url(siteEditText.text.toString().replace(Regex("/$"), "") + "/check_login?uid=" + useridEditText.text)
                         .build()
 
                 httpClient.newCall(request).enqueue(
@@ -73,12 +82,21 @@ class MainActivity : AppCompatActivity() {
 
                             override fun onResponse(call: Call, response: Response) {
                                 if (response.isSuccessful) {
-                                    showToast(response.toString())
+                                    var responseBody: ResponseBody? = response.body
 
-                                    //val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                                    ////startActivityForResult(intent, BARCODE_READER_REQUEST_CODE)
-                                    //startActivity(intent)
-                                    ////this.overridePendingTransition(0, 0);
+                                    if (responseBody == null)
+                                        return
+
+                                    if (responseBody.equals("{\"err\": 0}")) {
+
+                                        edit.putString("user", useridEditText.text.toString())
+                                        edit.apply()
+
+                                        val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                                        startActivity(intent)
+                                        //showToast(responseBody.string())
+                                    }
+
                                 } else
                                     showToast("Ошибка. Проверьте соединение и данные")
                             }
