@@ -32,13 +32,13 @@
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/logo" />
 
-        <com.varvet.inventory.CameraSourcePreview
+        <com.mouraviev.inventory.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_weight="1">
 
-        </com.varvet.inventory.CameraSourcePreview>
+        </com.mouraviev.inventory.CameraSourcePreview>
 
     </LinearLayout>
 

@@ -16,7 +16,7 @@
  * This file and all BarcodeXXX and CameraXXX files in this project edited by
  * Daniell Algar (included due to copyright reason)
  */
-package com.varvet.inventory;
+package com.mouraviev.inventory;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

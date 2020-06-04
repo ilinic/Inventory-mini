@@ -33,6 +33,31 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/siteTextView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@android:dimen/app_icon_size"
+        android:layout_marginEnd="@android:dimen/app_icon_size"
+        android:layout_marginBottom="16dp"
+        android:autofillHints="@string/webaddress_hint"
+        android:background="@android:drawable/editbox_background_normal"
+        android:clickable="true"
+        android:cursorVisible="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:hint="@string/webaddress_hint"
+        android:inputType="textWebEmailAddress"
+        android:textAlignment="textStart"
+        android:textColor="#7D7D7D"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/userIdtextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
         android:id="@+id/userIdtextView"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -58,28 +83,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/siteTextView"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="@android:dimen/app_icon_size"
-        android:layout_marginEnd="@android:dimen/app_icon_size"
-        android:layout_marginBottom="16dp"
-        android:autofillHints="@string/webaddress_hint"
-        android:background="@android:drawable/editbox_background_normal"
-        android:clickable="true"
-        android:cursorVisible="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:hint="@string/webaddress_hint"
-        android:inputType="textWebEmailAddress"
-        android:textAlignment="textStart"
-        android:textColor="#7D7D7D"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/userIdtextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
