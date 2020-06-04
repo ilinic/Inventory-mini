@@ -38,6 +38,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,22 +48,37 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public final class BarcodeActivity extends AppCompatActivity
         implements BarcodeTracker.BarcodeGraphicTrackerCallback {
 
-    private static final String TAG = "Barcode-reader";
+    private static final String TAG = "Inventory mini";
+    private String site, userId;
+    private OkHttpClient httpClient;
+
+    private TextView descTextView;
+    private String curCode = "";
 
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
 
     // Permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
-
-    // Constants used to pass extra data in the intent
-    public static final String BarcodeObject = "Barcode";
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
@@ -76,10 +92,17 @@ public final class BarcodeActivity extends AppCompatActivity
         setContentView(R.layout.activity_barcode);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mPreview = (CameraSourcePreview) findViewById(R.id.preview);
+        site = icicle.getString("site");
+        userId = icicle.getString("user");
+
+        httpClient = new OkHttpClient.Builder()
+                .callTimeout(2, TimeUnit.SECONDS)
+                .build();
+
+        mPreview = findViewById(R.id.preview);
         mPreview.setMinimumHeight(mPreview.getWidth());
 
-        TextView descTextView = (TextView) findViewById(R.id.descText);
+        descTextView = findViewById(R.id.descText);
         descTextView.setShadowLayer(50, 0, 0, Color.WHITE);
 
         boolean autoFocus = true;
@@ -103,6 +126,72 @@ public final class BarcodeActivity extends AppCompatActivity
         startActivity(setIntent);
     }
 
+    void processQRCode(String code) {
+
+        Request request;
+
+        curCode = code;
+
+        try {
+            request = new Request.Builder()
+                    .url(site + "/get_product?uid=" + userId + "&prodid=" + code)
+                    .build();
+
+            httpClient.newCall(request).enqueue(
+                    new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            showToast("Ошибка. Проверьте соединение и данные");
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            if (!response.isSuccessful()) {
+                                showToast("Ошибка. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            ResponseBody responseBody = response.body();
+
+                            if (responseBody == null) {
+                                showToast("Ошибка. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            Gson gson = new Gson();
+
+                            Map<String, String> responseMap = gson.fromJson(responseBody.string(), new
+                                    TypeToken<Map<String, String>>() {
+                                    }.getType());
+
+                            if (!responseMap.get("prodid").equalsIgnoreCase(curCode))
+                                return;
+
+                            if (responseMap.get("err").equalsIgnoreCase("1")) {
+                                showToast("Ошибка авторизации. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            if (responseMap.get("err").equalsIgnoreCase("2")) {
+                                showToast("Не найден продукт. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            if (!responseMap.get("err").equalsIgnoreCase("0")) {
+                                showToast("Ошибка. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            descTextView.setText("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                        }
+                    });
+
+        } catch (Exception e) {
+            showToast("Ошибка. Проверьте соединение и данные");
+        }
+    }
+
+
     @Override
     public void onDetectedQrCode(Barcode barcode) {
         if (barcode != null) {
@@ -118,20 +207,7 @@ public final class BarcodeActivity extends AppCompatActivity
                 //deprecated in API 26
                 v.vibrate(500);
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast toast = Toast.makeText(getApplicationContext(), barcodeText, Toast.LENGTH_SHORT);
-                    toast.setMargin(0, 100);
-                    toast.show();
-                }
-            });
-
-/*
-            Intent intent = new Intent();
-            intent.putExtra(BarcodeObject, barcode);
-            setResult(CommonStatusCodes.SUCCESS, intent);
-            finish();
-*/
+            processQRCode(barcodeText);
         }
     }
 
@@ -317,4 +393,18 @@ public final class BarcodeActivity extends AppCompatActivity
             }
         }
     }
+
+    void showToast(String msg) {
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(msg, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 160);
+                        toast.show();
+                    }
+                }
+        )
+    }
+
 }

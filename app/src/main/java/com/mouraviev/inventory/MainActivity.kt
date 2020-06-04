@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         settings = PreferenceManager.getDefaultSharedPreferences(this)
-        val site = settings.getString("site", "")
-        val userId = settings.getString("user", "")
+        var site = settings.getString("site", "")
+        var userId = settings.getString("user", "")
 
         if (!userId.equals("")) {
-            val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).putExtra("site", site).putExtra("user", userId)
             startActivity(intent)
             finish()
         }
@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             val edit: SharedPreferences.Editor = settings.edit()
-            edit.putString("site", siteEditText.text.toString().replace(Regex("/$"), ""))
+            site = siteEditText.text.toString().replace(Regex("/$"), "")
+            edit.putString("site", site)
             edit.apply()
 
             val request: Request
@@ -103,10 +104,11 @@ class MainActivity : AppCompatActivity() {
                                     return
                                 }
 
-                                edit.putString("user", useridEditText.text.toString())
+                                userId = useridEditText.text.toString()
+                                edit.putString("user", userId)
                                 edit.apply()
 
-                                val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                                val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).putExtra("site", site).putExtra("user", userId)
                                 startActivity(intent)
                             }
                         })
