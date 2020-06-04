@@ -121,7 +121,7 @@ public final class BarcodeActivity extends AppCompatActivity
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast toast = Toast.makeText(getApplicationContext(), barcodeText, Toast.LENGTH_SHORT);
-                    toast.setMargin(50, 50);
+                    toast.setMargin(0, 100);
                     toast.show();
                 }
             });

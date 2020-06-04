@@ -3,6 +3,7 @@
     package="com.mouraviev.inventory">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +21,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name="com.varvet.inventory.MainActivity"
+            android:name="com.mouraviev.inventory.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
 
             <intent-filter>
