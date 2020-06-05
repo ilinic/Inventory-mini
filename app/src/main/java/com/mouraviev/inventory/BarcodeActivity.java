@@ -250,7 +250,7 @@ public final class BarcodeActivity extends AppCompatActivity
                                 return;
                             }
 
-                            showProdInfo("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                            showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
                         }
                     });
 
@@ -318,9 +318,9 @@ public final class BarcodeActivity extends AppCompatActivity
                             if (responseMap.get("prodid").equals(curCode)) {
                                 deltaOK();
                                 vibrate(VIBRATE_CHANGE_MSEC);
-                                showProdInfo("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                                showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
                             } else
-                                showToast("Изменен: \u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                                showToast("Изменен: ∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
                         }
                     });
 

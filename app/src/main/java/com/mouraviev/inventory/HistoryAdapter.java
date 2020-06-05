@@ -2,10 +2,10 @@ package com.mouraviev.inventory;
 
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -25,33 +25,25 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvViewHolder> {
-    public static final int SORT_NAME = 1, SORT_ID = 2, SORT_COUNT = 3;
-    static int curSort;
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistViewHolder> {
+
     private final Handler activityUIhandler;
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
 
-    public InventoryAdapter(Handler handler) {
+    public HistoryAdapter(Handler handler) {
 
         activityUIhandler = handler;
 
         httpClient = new OkHttpClient.Builder()
-                .callTimeout(10, TimeUnit.SECONDS)
+                .callTimeout(20, TimeUnit.SECONDS)
                 .build();
 
         data = new ArrayList();
-
-        curSort = SORT_NAME;
     }
 
-    synchronized public void setSort(int sort) {
-        curSort = sort;
-        Collections.sort(data);
-        activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_SUCCESS);
-    }
 
-    synchronized public void loadInventory() {
+    synchronized public void loadHistory() {
         Request request;
 
         try {
@@ -98,8 +90,6 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                                 data = new ArrayList<>();
                                 Collections.addAll(data, gson.fromJson(responseBody.string(), JsonWrapper[].class));
 
-                                setSort(curSort);
-
                             } catch (Exception e) {
 
                                 Log.e("InventoryAdapter", "httpClient.onResponse", e);
@@ -121,23 +111,24 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     }
 
     @Override
-    public InvViewHolder onCreateViewHolder(ViewGroup parent,
-                                            int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.inv_list_item, parent, false);
+    public HistViewHolder onCreateViewHolder(ViewGroup parent,
+                                             int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.hist_list_item, parent, false);
 
-        InvViewHolder vh = new InvViewHolder(v);
+        HistViewHolder vh = new HistViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(InvViewHolder holder, int position) {
+    public void onBindViewHolder(HistViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
 
-        String id = String.format("%1$-10s", "№ " + el.id);
-        String cnt = String.format(" ∑ %1$-6s", el.cnt);
+        String top = String.format("%s   𝚫 %d   ∑ %d → %d   № %s", el.dt, el.d, el.bf, el.af, el.pid);
+        String bot = String.format("%s   %s", el.unme, el.pnme);
 
-        holder.textView.setText(id + cnt + "  " + el.name);
+        holder.textTopView.setText(top);
+        holder.textBotView.setText(bot);
     }
 
     @Override
@@ -145,37 +136,21 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         return data.size();
     }
 
-    public static class InvViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+    public static class HistViewHolder extends RecyclerView.ViewHolder {
+        TextView textTopView, textBotView;
 
-        public InvViewHolder(TextView v) {
+        public HistViewHolder(View v) {
             super(v);
-            textView = v;
+            textTopView = v.findViewById(R.id.hist_top_text);
+            textBotView = v.findViewById(R.id.hist_bot_text);
         }
     }
 
-    class JsonWrapper implements Comparable<JsonWrapper> {
-        String id, name;
-        int cnt;
+    class JsonWrapper {
+        // date delta cnt_before cnt_after prodid
+        // user_name prod_name
 
-        @Override
-        public int compareTo(@NonNull JsonWrapper o) {
-            switch (InventoryAdapter.curSort) {
-                case SORT_NAME:
-                    return name.compareTo(o.name);
-                case -SORT_NAME:
-                    return -name.compareTo(o.name);
-                case SORT_ID:
-                    return id.compareTo(o.id);
-                case -SORT_ID:
-                    return -id.compareTo(o.id);
-                case SORT_COUNT:
-                    return cnt - o.cnt;
-                case -SORT_COUNT:
-                    return -cnt + o.cnt;
-                default:
-                    return 0;
-            }
-        }
+        String dt, unme, pnme, pid;
+        int d, bf, af;
     }
 }
