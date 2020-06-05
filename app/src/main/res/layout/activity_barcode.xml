@@ -197,70 +197,55 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:padding="5dp"
-        android:paddingStart="27dp"
+        android:paddingStart="20dp"
         android:paddingLeft="27dp"
-        android:paddingEnd="27dp"
+        android:paddingEnd="20dp"
         android:paddingRight="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/button4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:background="@null"
-            android:text="📷" />
+            android:contentDescription="scan"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/ic_photobtn" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:background="@null"
-            android:text="📚" />
+            android:contentDescription="inventory"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/ic_inventorybtn" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:background="@null"
-            android:text="📆" />
+            android:contentDescription="history"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/ic_calendarbtn" />
 
-        <ImageButton
-            android:id="@+id/scanBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
-
-        <ImageButton
-            android:id="@+id/invBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
-
-        <ImageButton
-            android:id="@+id/histBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            app:srcCompat="@android:drawable/ic_menu_month" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

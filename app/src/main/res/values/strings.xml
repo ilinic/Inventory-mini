@@ -17,4 +17,5 @@
     <string name="userid_hint">Secret_user_Id</string>
     <string name="enter_code_hint">Enter product code</string>
     <string name="delta_default">-1</string>
+    <string name="scanBtn">📷</string>
 </resources>
