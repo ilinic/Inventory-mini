@@ -99,7 +99,7 @@ public final class BarcodeActivity extends AppCompatActivity
         findViewById(R.id.inventoryBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), InventoryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InventoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -107,7 +107,7 @@ public final class BarcodeActivity extends AppCompatActivity
         findViewById(R.id.historyBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });

@@ -74,6 +74,7 @@ public class InventoryActivity extends AppCompatActivity {
         listView.setLayoutManager(layoutManager);
 
         inventoryAdapter = new InventoryAdapter();
+
         inventoryAdapter.addErrorListener(new InventoryAdapter.StateListener() {
             @Override
             public void OnError(String msg) {
@@ -81,13 +82,29 @@ public class InventoryActivity extends AppCompatActivity {
             }
 
             @Override
+            public void OnBusyStart() {
+                runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                            }
+                        });
+            }
+
+            @Override
             public void OnSuccess() {
-                findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                            }
+                        });
             }
         });
 
         listView.setAdapter(inventoryAdapter);
-        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
         inventoryAdapter.loadInventory();
     }
 

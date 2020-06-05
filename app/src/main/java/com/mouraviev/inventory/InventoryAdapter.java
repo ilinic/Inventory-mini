@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
@@ -25,11 +24,10 @@ import okhttp3.ResponseBody;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvViewHolder> {
     public static final int SORT_NAME_UP = 1, SORT_NAME_DOWN = -1, SORT_ID_UP = 2, SORT_ID_DOWN = -2, SORT_COUNT_UP = 3, SORT_COUNT_DOWN = -3;
+    private static int curSort;
     private StateListener stateListerner;
-
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
-    private int curSort;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public InventoryAdapter() {
@@ -90,7 +88,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                                 Gson gson = new Gson();
 
                                 data = new ArrayList<>();
-                                data.addAll(Arrays.asList(gson.fromJson(responseBody.string(), JsonWrapper[].class)));
+                                Collections.addAll(data, gson.fromJson(responseBody.string(), JsonWrapper[].class));
 
                                 setSort(curSort);
 
@@ -164,7 +162,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
 
         @Override
         public int compareTo(@NonNull JsonWrapper o) {
-            switch (curSort) {
+            switch (InventoryAdapter.curSort) {
                 case SORT_NAME_UP:
                     return name.compareTo(o.name);
                 case SORT_NAME_DOWN:

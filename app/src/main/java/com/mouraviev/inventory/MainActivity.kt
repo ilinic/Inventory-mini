@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         userId = settings.getString("user", "")
 
         if (!userId.equals("")) {
-            val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).putExtra("site", site).putExtra("user", userId)
+            val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
             startActivity(intent)
             finish()
