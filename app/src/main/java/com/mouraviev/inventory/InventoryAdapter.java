@@ -1,5 +1,7 @@
 package com.mouraviev.inventory;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,30 +25,30 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvViewHolder> {
-    public static final int SORT_NAME_UP = 1, SORT_NAME_DOWN = -1, SORT_ID_UP = 2, SORT_ID_DOWN = -2, SORT_COUNT_UP = 3, SORT_COUNT_DOWN = -3;
-    private static int curSort;
-    private StateListener stateListerner;
+    public static final int SORT_NAME = 1, SORT_ID = 2, SORT_COUNT = 3;
+    static int curSort;
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
+    private Handler activityUIhandler;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public InventoryAdapter() {
+    public InventoryAdapter(Handler handler) {
+
+        activityUIhandler = handler;
+
         httpClient = new OkHttpClient.Builder()
-                .callTimeout(2, TimeUnit.SECONDS)
+                .callTimeout(10, TimeUnit.SECONDS)
                 .build();
 
         data = new ArrayList();
 
-        curSort = SORT_NAME_UP;
-    }
-
-    public void addErrorListener(StateListener listener) {
-        stateListerner = listener;
+        curSort = SORT_NAME;
     }
 
     public void setSort(int sort) {
         curSort = sort;
         Collections.sort(data);
+        notifyDataSetChanged();
     }
 
     public void loadInventory() {
@@ -57,29 +59,35 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                     .url(MainActivity.site + "/get_inventory?uid=" + MainActivity.userId)
                     .build();
 
-            if (stateListerner == null)
-                stateListerner = new StateListener();
-
-            stateListerner.OnBusyStart();
+            activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_START);
 
             httpClient.newCall(request).enqueue(
                     new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            stateListerner.OnError("Ошибка. Проверьте соединение и данные");
+                            Message msg = new Message();
+                            msg.obj = "Ошибка. Проверьте соединение и данные";
+                            msg.what = InventoryActivity.MSG_ERROR;
+                            activityUIhandler.sendMessage(msg);
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             if (!response.isSuccessful()) {
-                                stateListerner.OnError("Ошибка. Проверьте соединение и данные");
+                                Message msg = new Message();
+                                msg.obj = "Ошибка. Проверьте соединение и данные";
+                                msg.what = InventoryActivity.MSG_ERROR;
+                                activityUIhandler.sendMessage(msg);
                                 return;
                             }
 
                             ResponseBody responseBody = response.body();
 
                             if (responseBody == null) {
-                                stateListerner.OnError("Ошибка. Проверьте соединение и данные");
+                                Message msg = new Message();
+                                msg.obj = "Ошибка. Проверьте соединение и данные";
+                                msg.what = InventoryActivity.MSG_ERROR;
+                                activityUIhandler.sendMessage(msg);
                                 return;
                             }
 
@@ -91,18 +99,22 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                                 Collections.addAll(data, gson.fromJson(responseBody.string(), JsonWrapper[].class));
 
                                 setSort(curSort);
-
-                                stateListerner.OnSuccess();
-                                notifyDataSetChanged();
+                                activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_SUCCESS);
 
                             } catch (Exception e) {
-                                stateListerner.OnError("Ошибка. Проверьте соединение и данные");
+                                Message msg = new Message();
+                                msg.obj = "Ошибка. Проверьте соединение и данные";
+                                msg.what = InventoryActivity.MSG_ERROR;
+                                activityUIhandler.sendMessage(msg);
                             }
                         }
                     });
 
         } catch (Exception e) {
-            stateListerner.OnError("Ошибка. Проверьте соединение и данные");
+            Message msg = new Message();
+            msg.obj = "Ошибка. Проверьте соединение и данные";
+            msg.what = InventoryActivity.MSG_ERROR;
+            activityUIhandler.sendMessage(msg);
         }
     }
 
@@ -122,10 +134,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     public void onBindViewHolder(InvViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
 
-        String id = String.format("%1$" + 10 + "s", "№" + el.id);
-        String cnt = String.format("%1$" + 10 + "s", " \u2211" + el.cnt);
+        String id = String.format("%1$-10s", "№ " + el.id);
+        String cnt = String.format("%1$-6s", " \u2211 " + el.cnt);
 
-        holder.textView.setText(id + cnt + "   " + el.name);
+        holder.textView.setText(id + cnt + "  " + el.name);
     }
 
     // Return the size of your dataset (invoked by the inv_list_item manager)
@@ -147,18 +159,6 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         }
     }
 
-    public static class StateListener {
-        public void OnBusyStart() {
-        }
-
-        public void OnError(String msg) {
-        }
-
-        public void OnSuccess() {
-        }
-    }
-
-
     class JsonWrapper implements Comparable<JsonWrapper> {
         String id, name;
         int cnt;
@@ -166,17 +166,17 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         @Override
         public int compareTo(@NonNull JsonWrapper o) {
             switch (InventoryAdapter.curSort) {
-                case SORT_NAME_UP:
+                case SORT_NAME:
                     return name.compareTo(o.name);
-                case SORT_NAME_DOWN:
+                case -SORT_NAME:
                     return -name.compareTo(o.name);
-                case SORT_ID_UP:
+                case SORT_ID:
                     return id.compareTo(o.id);
-                case SORT_ID_DOWN:
+                case -SORT_ID:
                     return -id.compareTo(o.id);
-                case SORT_COUNT_UP:
+                case SORT_COUNT:
                     return cnt - o.cnt;
-                case SORT_COUNT_DOWN:
+                case -SORT_COUNT:
                     return -cnt + o.cnt;
                 default:
                     return 0;

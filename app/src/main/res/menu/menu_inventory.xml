@@ -19,7 +19,7 @@
         android:title="@string/sort_name"
         app:showAsAction="never" />
     <item
-        android:id="@+id/sort_num"
+        android:id="@+id/sort_id"
         android:orderInCategory="100"
         android:title="@string/sort_id"
         app:showAsAction="never" />

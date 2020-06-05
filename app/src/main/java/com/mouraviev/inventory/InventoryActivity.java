@@ -1,7 +1,10 @@
 package com.mouraviev.inventory;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -13,7 +16,43 @@ import android.widget.Toast;
 
 public class InventoryActivity extends AppCompatActivity {
 
-    PopupMenu popup;
+    public static final int MSG_START = 0;
+    public static final int MSG_ERROR = 1;
+    public static final int MSG_SUCCESS = 2;
+    PopupMenu popup = null;
+
+    @SuppressLint("HandlerLeak")
+    public final Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+
+            final Message msg1 = msg;
+
+            runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            switch (msg1.what) {
+                                case MSG_ERROR:
+                                    Toast toast = Toast.makeText(getApplicationContext(), (String) msg1.obj, Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                                    updateMenu();
+                                    return;
+
+                                case MSG_START:
+                                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                                    return;
+
+                                case MSG_SUCCESS:
+                                    findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                                    updateMenu();
+                                    return;
+                            }
+                        }
+                    });
+        }
+    };
     RecyclerView listView;
     InventoryAdapter inventoryAdapter;
 
@@ -25,7 +64,7 @@ public class InventoryActivity extends AppCompatActivity {
         findViewById(R.id.scanBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), BarcodeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BarcodeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
             }
@@ -34,7 +73,7 @@ public class InventoryActivity extends AppCompatActivity {
         findViewById(R.id.historyBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
             }
@@ -42,16 +81,26 @@ public class InventoryActivity extends AppCompatActivity {
 
         popup = new PopupMenu(this, findViewById(R.id.menuBtn));
 
-        popup.getMenuInflater()
-                .inflate(R.menu.menu_inventory, popup.getMenu());
+        popup.getMenuInflater().inflate(R.menu.menu_inventory, popup.getMenu());
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(
-                        InventoryActivity.this,
-                        "You Clicked : " + item.getTitle(),
-                        Toast.LENGTH_SHORT
-                ).show();
+
+                switch (item.getItemId()) {
+
+                    case R.id.update_menu:
+                        inventoryAdapter.loadInventory();
+                        return true;
+                    case R.id.sort_name:
+                        inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_NAME ? -InventoryAdapter.SORT_NAME : InventoryAdapter.SORT_NAME);
+                        return true;
+                    case R.id.sort_id:
+                        inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_ID ? -InventoryAdapter.SORT_ID : InventoryAdapter.SORT_ID);
+                        return true;
+                    case R.id.sort_count:
+                        inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_COUNT ? -InventoryAdapter.SORT_COUNT : InventoryAdapter.SORT_COUNT);
+                        return true;
+                }
 
                 return true;
             }
@@ -68,43 +117,16 @@ public class InventoryActivity extends AppCompatActivity {
 
         // use this setting to improve performance if you know that changes
         // in content do not change the inv_list_item size of the RecyclerView
-        listView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
 
-        inventoryAdapter = new InventoryAdapter();
-
-        inventoryAdapter.addErrorListener(new InventoryAdapter.StateListener() {
-            @Override
-            public void OnError(String msg) {
-                showToast(msg);
-            }
-
-            @Override
-            public void OnBusyStart() {
-                runOnUiThread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
-                            }
-                        });
-            }
-
-            @Override
-            public void OnSuccess() {
-                runOnUiThread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
-                            }
-                        });
-            }
-        });
+        inventoryAdapter = new InventoryAdapter(handler);
 
         listView.setAdapter(inventoryAdapter);
+
+        listView.setHasFixedSize(true);
+
         inventoryAdapter.loadInventory();
     }
 
@@ -113,15 +135,39 @@ public class InventoryActivity extends AppCompatActivity {
         finish();
     }
 
-    public void showToast(final String msg) {
-        runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                });
+    private void updateMenu() {
+
+        if (popup == null)
+            return;
+
+        popup.getMenu().findItem(R.id.sort_name).setTitle(" " + getResources().getString(R.string.sort_name));
+        popup.getMenu().findItem(R.id.sort_id).setTitle(" " + getResources().getString(R.string.sort_id));
+        popup.getMenu().findItem(R.id.sort_count).setTitle(" " + getResources().getString(R.string.sort_count));
+
+        switch (InventoryAdapter.curSort) {
+            case InventoryAdapter.SORT_NAME:
+                popup.getMenu().findItem(R.id.sort_name).setTitle("+" + getResources().getString(R.string.sort_name));
+                break;
+
+            case -InventoryAdapter.SORT_NAME:
+                popup.getMenu().findItem(R.id.sort_name).setTitle("-" + getResources().getString(R.string.sort_name));
+                break;
+
+            case InventoryAdapter.SORT_ID:
+                popup.getMenu().findItem(R.id.sort_id).setTitle("+" + getResources().getString(R.string.sort_id));
+                break;
+
+            case -InventoryAdapter.SORT_ID:
+                popup.getMenu().findItem(R.id.sort_id).setTitle("-" + getResources().getString(R.string.sort_id));
+                break;
+
+            case InventoryAdapter.SORT_COUNT:
+                popup.getMenu().findItem(R.id.sort_count).setTitle("+" + getResources().getString(R.string.sort_count));
+                break;
+
+            case -InventoryAdapter.SORT_COUNT:
+                popup.getMenu().findItem(R.id.sort_count).setTitle("-" + getResources().getString(R.string.sort_count));
+                break;
+        }
     }
 }

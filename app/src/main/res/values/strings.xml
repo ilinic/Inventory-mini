@@ -19,8 +19,8 @@
     <string name="delta_default">-1</string>
     <string name="update_menu">Обновить</string>
     <string name="title_activity_inventory">ScrollingActivity</string>
-    <string name="sort_name">\tпо имени</string>
-    <string name="sort_id">\tпо инв#</string>
-    <string name="sort_count">\tпо кол-ву</string>
+    <string name="sort_name">по имени</string>
+    <string name="sort_id">по инв#</string>
+    <string name="sort_count">по кол-ву</string>
     <string name="sort_sep">Сортировка</string>
 </resources>
