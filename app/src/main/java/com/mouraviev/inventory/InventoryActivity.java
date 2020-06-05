@@ -74,7 +74,7 @@ public class InventoryActivity extends AppCompatActivity {
         listView.setLayoutManager(layoutManager);
 
         inventoryAdapter = new InventoryAdapter();
-        inventoryAdapter.addErrorListenter(new InventoryAdapter.StateListener() {
+        inventoryAdapter.addErrorListener(new InventoryAdapter.StateListener() {
             @Override
             public void OnError(String msg) {
                 showToast(msg);
