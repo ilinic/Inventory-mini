@@ -29,9 +29,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     static int curSort;
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
-    private Handler activityUIhandler;
+    private final Handler activityUIhandler;
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public InventoryAdapter(Handler handler) {
 
         activityUIhandler = handler;
@@ -45,13 +44,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         curSort = SORT_NAME;
     }
 
-    public void setSort(int sort) {
+    synchronized public void setSort(int sort) {
         curSort = sort;
         Collections.sort(data);
-        notifyDataSetChanged();
     }
 
-    public void loadInventory() {
+    synchronized public void loadInventory() {
         Request request;
 
         try {
@@ -99,11 +97,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                                 Collections.addAll(data, gson.fromJson(responseBody.string(), JsonWrapper[].class));
 
                                 setSort(curSort);
+                                //notifyDataSetChanged();
                                 activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_SUCCESS);
 
                             } catch (Exception e) {
                                 Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
+                                msg.obj = e.getMessage() + " Ошибка. Проверьте соединение и данные";
                                 msg.what = InventoryActivity.MSG_ERROR;
                                 activityUIhandler.sendMessage(msg);
                             }
@@ -118,11 +117,9 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         }
     }
 
-    // Create new views (invoked by the inv_list_item manager)
     @Override
     public InvViewHolder onCreateViewHolder(ViewGroup parent,
                                             int viewType) {
-        // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.inv_list_item, parent, false);
 
@@ -140,17 +137,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         holder.textView.setText(id + cnt + "  " + el.name);
     }
 
-    // Return the size of your dataset (invoked by the inv_list_item manager)
     @Override
     public int getItemCount() {
         return data.size();
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class InvViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         TextView textView;
 
         public InvViewHolder(TextView v) {

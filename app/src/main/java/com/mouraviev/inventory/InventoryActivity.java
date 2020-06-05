@@ -26,6 +26,7 @@ public class InventoryActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
 
             final Message msg1 = msg;
+            final View loadingPanel = findViewById(R.id.loadingPanel);
 
             runOnUiThread(
                     new Runnable() {
@@ -36,23 +37,23 @@ public class InventoryActivity extends AppCompatActivity {
                                     Toast toast = Toast.makeText(getApplicationContext(), (String) msg1.obj, Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, 0, 0);
                                     toast.show();
-                                    findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                                    loadingPanel.setVisibility(View.INVISIBLE);
                                     updateMenu();
                                     return;
 
                                 case MSG_START:
-                                    findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                                    loadingPanel.setVisibility(View.VISIBLE);
                                     return;
 
                                 case MSG_SUCCESS:
-                                    findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                                    loadingPanel.setVisibility(View.INVISIBLE);
                                     updateMenu();
-                                    return;
                             }
                         }
                     });
         }
     };
+
     RecyclerView listView;
     InventoryAdapter inventoryAdapter;
 
@@ -90,15 +91,19 @@ public class InventoryActivity extends AppCompatActivity {
 
                     case R.id.update_menu:
                         inventoryAdapter.loadInventory();
+                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                     case R.id.sort_name:
                         inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_NAME ? -InventoryAdapter.SORT_NAME : InventoryAdapter.SORT_NAME);
+                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                     case R.id.sort_id:
                         inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_ID ? -InventoryAdapter.SORT_ID : InventoryAdapter.SORT_ID);
+                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                     case R.id.sort_count:
                         inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_COUNT ? -InventoryAdapter.SORT_COUNT : InventoryAdapter.SORT_COUNT);
+                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                 }
 
@@ -113,10 +118,7 @@ public class InventoryActivity extends AppCompatActivity {
             }
         });
 
-        listView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the inv_list_item size of the RecyclerView
+        listView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
@@ -135,7 +137,7 @@ public class InventoryActivity extends AppCompatActivity {
         finish();
     }
 
-    private void updateMenu() {
+    synchronized private void updateMenu() {
 
         if (popup == null)
             return;

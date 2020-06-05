@@ -14,11 +14,6 @@
         android:title="@string/sort_sep"
         app:showAsAction="never" />
     <item
-        android:id="@+id/sort_name"
-        android:orderInCategory="100"
-        android:title="@string/sort_name"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/sort_id"
         android:orderInCategory="100"
         android:title="@string/sort_id"
@@ -27,5 +22,10 @@
         android:id="@+id/sort_count"
         android:orderInCategory="100"
         android:title="@string/sort_count"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_name"
+        android:orderInCategory="100"
+        android:title="@string/sort_name"
         app:showAsAction="never" />
 </menu>
