@@ -3,7 +3,10 @@ package com.mouraviev.inventory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -11,6 +14,8 @@ import android.widget.Toast;
 public class InventoryActivity extends AppCompatActivity {
 
     PopupMenu popup;
+    RecyclerView listView;
+    InventoryAdapter inventoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +64,47 @@ public class InventoryActivity extends AppCompatActivity {
             }
         });
 
+        listView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the inv_list_item size of the RecyclerView
+        //listView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(layoutManager);
+
+        inventoryAdapter = new InventoryAdapter();
+        inventoryAdapter.addErrorListenter(new InventoryAdapter.StateListener() {
+            @Override
+            public void OnError(String msg) {
+                showToast(msg);
+            }
+
+            @Override
+            public void OnSuccess() {
+                findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+            }
+        });
+
+        listView.setAdapter(inventoryAdapter);
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+        inventoryAdapter.loadInventory();
     }
 
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    public void showToast(final String msg) {
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                });
     }
 }
