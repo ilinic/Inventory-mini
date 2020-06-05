@@ -48,10 +48,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
 
         try {
             request = new Request.Builder()
-                    .url(MainActivity.site + "/get_inventory?uid=" + MainActivity.userId)
+                    .url(MainActivity.site + "/get_history?uid=" + MainActivity.userId)
                     .build();
 
-            activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_START);
+            activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_START);
 
             httpClient.newCall(request).enqueue(
                     new Callback() {
@@ -59,7 +59,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             Message msg = new Message();
                             msg.obj = "Ошибка. Проверьте соединение и данные";
-                            msg.what = InventoryActivity.MSG_ERROR;
+                            msg.what = HistoryActivity.MSG_ERROR;
                             activityUIhandler.sendMessage(msg);
                         }
 
@@ -68,7 +68,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                             if (!response.isSuccessful()) {
                                 Message msg = new Message();
                                 msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = InventoryActivity.MSG_ERROR;
+                                msg.what = HistoryActivity.MSG_ERROR;
                                 activityUIhandler.sendMessage(msg);
                                 return;
                             }
@@ -78,7 +78,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                             if (responseBody == null) {
                                 Message msg = new Message();
                                 msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = InventoryActivity.MSG_ERROR;
+                                msg.what = HistoryActivity.MSG_ERROR;
                                 activityUIhandler.sendMessage(msg);
                                 return;
                             }
@@ -95,7 +95,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                                 Log.e("InventoryAdapter", "httpClient.onResponse", e);
                                 Message msg = new Message();
                                 msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = InventoryActivity.MSG_ERROR;
+                                msg.what = HistoryActivity.MSG_ERROR;
                                 activityUIhandler.sendMessage(msg);
                             }
                         }
@@ -105,7 +105,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
             Log.e("InventoryAdapter", "httpClient.newCall", e);
             Message msg = new Message();
             msg.obj = "Ошибка. Проверьте соединение и данные";
-            msg.what = InventoryActivity.MSG_ERROR;
+            msg.what = HistoryActivity.MSG_ERROR;
             activityUIhandler.sendMessage(msg);
         }
     }
