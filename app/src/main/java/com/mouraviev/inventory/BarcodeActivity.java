@@ -101,7 +101,6 @@ public final class BarcodeActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), InventoryActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -110,7 +109,6 @@ public final class BarcodeActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -179,6 +177,7 @@ public final class BarcodeActivity extends AppCompatActivity
             requestCameraPermission();
         }
     }
+/*
 
     @Override
     public void onBackPressed() {
@@ -187,6 +186,7 @@ public final class BarcodeActivity extends AppCompatActivity
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(setIntent);
     }
+*/
 
     void processQRCode(String code) {
 

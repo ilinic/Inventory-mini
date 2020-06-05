@@ -16,11 +16,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".InventoryActivity"
-            android:label="@string/title_activity_inventory"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".HistoryActivity"
-            android:label="@string/title_activity_history"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BarcodeActivity"

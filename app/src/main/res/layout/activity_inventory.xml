@@ -70,7 +70,7 @@
         android:onClick="showPopup"
         app:layout_constraintStart_toStartOf="@+id/linearLayout1"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_more_vert_black_24dp" />
+        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
