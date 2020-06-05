@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="0"
-    android:background="@drawable/main_header_selector">
+    android:background="@drawable/gradient_bg">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -211,7 +211,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/button4"
+            android:id="@+id/scanBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -223,7 +223,7 @@
             tools:src="@drawable/ic_photobtn" />
 
         <ImageButton
-            android:id="@+id/button3"
+            android:id="@+id/inventoryBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -235,7 +235,7 @@
             tools:src="@drawable/ic_inventorybtn" />
 
         <ImageButton
-            android:id="@+id/button2"
+            android:id="@+id/historyBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
