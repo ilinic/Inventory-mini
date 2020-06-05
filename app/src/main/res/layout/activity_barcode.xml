@@ -50,7 +50,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="92dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
@@ -105,6 +105,7 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="plus"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:tint="#888888"
@@ -139,18 +140,13 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="minus"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:tint="#888888"
             app:srcCompat="@drawable/minus" />
 
     </LinearLayout>
-    <![CDATA[
-
-    //app:srcCompat="@drawable/common_google_signin_btn_text_light_normal" />
-    />
-
-    ]]>
 
     <Button
         android:id="@+id/sendBtn"
@@ -159,7 +155,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:background="@color/colorAccent"
-        android:editable="false"
         android:focusable="false"
         android:foregroundGravity="center_horizontal"
         android:text="@string/scan_barcode_button"
@@ -174,7 +169,7 @@
         android:id="@+id/descText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@null"
@@ -198,9 +193,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        android:padding="5dp"
         android:paddingStart="20dp"
         android:paddingLeft="27dp"
         android:paddingEnd="20dp"
@@ -213,38 +206,39 @@
         <ImageButton
             android:id="@+id/scanBtn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contentDescription="scan"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            tools:src="@drawable/ic_photobtn" />
-
-        <ImageButton
-            android:id="@+id/inventoryBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contentDescription="inventory"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            tools:src="@drawable/ic_inventorybtn" />
-
-        <ImageButton
-            android:id="@+id/historyBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
             android:background="@null"
             android:contentDescription="history"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            tools:src="@drawable/ic_calendarbtn" />
+            android:tint="#40000000"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_photobtn" />
+
+        <ImageButton
+            android:id="@+id/inventoryBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="plus"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_inventorybtn" />
+
+        <ImageButton
+            android:id="@+id/historyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="history"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_calendarbtn" />
 
     </LinearLayout>
 

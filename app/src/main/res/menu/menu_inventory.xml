@@ -2,9 +2,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mouraviev.inventory.InventoryActivity">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/update_menu"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/update_menu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_separator"
+        android:orderInCategory="100"
+        android:title="@string/sort_sep"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_name"
+        android:orderInCategory="100"
+        android:title="@string/sort_name"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_num"
+        android:orderInCategory="100"
+        android:title="@string/sort_id"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_count"
+        android:orderInCategory="100"
+        android:title="@string/sort_count"
         app:showAsAction="never" />
 </menu>

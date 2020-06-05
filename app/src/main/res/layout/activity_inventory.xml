@@ -6,25 +6,10 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_bg">
 
-    <ImageButton
-        android:id="@+id/menuBtn"
-        android:layout_width="64dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:background="@null"
-        android:contentDescription="more"
-        android:onClick="showPopup"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout1"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_more_vert_black_24dp" />
-
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        android:padding="5dp"
         android:paddingStart="20dp"
         android:paddingLeft="27dp"
         android:paddingEnd="20dp"
@@ -37,40 +22,54 @@
         <ImageButton
             android:id="@+id/scanBtn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contentDescription="scan"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            tools:src="@drawable/ic_photobtn" />
-
-        <ImageButton
-            android:id="@+id/inventoryBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contentDescription="inventory"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            tools:src="@drawable/ic_inventorybtn" />
-
-        <ImageButton
-            android:id="@+id/historyBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
             android:background="@null"
             android:contentDescription="history"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            tools:src="@drawable/ic_calendarbtn" />
+            android:tint="#1EFFFFFF"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_photobtn" />
+
+        <ImageButton
+            android:id="@+id/inventoryBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="plus"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:tint="#74000000"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_inventorybtn" />
+
+        <ImageButton
+            android:id="@+id/historyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="history"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_calendarbtn" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/menuBtn"
+        android:layout_width="60dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:contentDescription="more"
+        android:onClick="showPopup"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_more_vert_black_24dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -90,9 +89,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="0"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="60dp"
+            android:paddingStart="60dp"
             android:paddingTop="10dp"
-            android:paddingRight="50dp"
+            android:paddingEnd="50dp"
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/logo" />
 
@@ -101,7 +100,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearLayout1" />

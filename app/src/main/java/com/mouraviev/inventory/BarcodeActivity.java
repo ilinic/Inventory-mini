@@ -64,7 +64,6 @@ public final class BarcodeActivity extends AppCompatActivity
     private static final int RC_HANDLE_CAMERA_PERM = 2;
     private static final long VIBRATE_QR_MSEC = 200;
     private static final long VIBRATE_CHANGE_MSEC = 100;
-    private String site, userId;
     private OkHttpClient httpClient;
     private TextView descTextView;
     private EditText codeEdit, deltaEdit;
@@ -78,9 +77,6 @@ public final class BarcodeActivity extends AppCompatActivity
         super.onCreate(icicle);
         setContentView(R.layout.activity_barcode);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        site = getIntent().getExtras().getString("site");
-        userId = getIntent().getExtras().getString("user");
 
         httpClient = new OkHttpClient.Builder()
                 .callTimeout(2, TimeUnit.SECONDS)
@@ -96,6 +92,27 @@ public final class BarcodeActivity extends AppCompatActivity
         codeEdit.setVisibility(View.INVISIBLE);
 
         deltaEdit = findViewById(R.id.deltaEdit);
+
+        descTextView.setText("");
+        deltaEdit.setText("-1");
+
+        findViewById(R.id.inventoryBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), InventoryActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        findViewById(R.id.historyBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         findViewById(R.id.enterCodeBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +196,7 @@ public final class BarcodeActivity extends AppCompatActivity
 
         try {
             request = new Request.Builder()
-                    .url(site + "/get_product?uid=" + userId + "&prodid=" + code)
+                    .url(MainActivity.site + "/get_product?uid=" + MainActivity.userId + "&prodid=" + code)
                     .build();
 
             httpClient.newCall(request).enqueue(
@@ -253,7 +270,7 @@ public final class BarcodeActivity extends AppCompatActivity
 
         try {
             request = new Request.Builder()
-                    .url(site + "/act?uid=" + userId + "&prodid=" + curCode + "&delta=" + delta)
+                    .url(MainActivity.site + "/act?uid=" + MainActivity.userId + "&prodid=" + curCode + "&delta=" + delta)
                     .build();
 
             httpClient.newCall(request).enqueue(

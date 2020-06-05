@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var httpClient: OkHttpClient
     private lateinit var settings: SharedPreferences
 
+    companion object {
+        lateinit var userId: String
+        lateinit var site: String
+    }
+
     fun showToast(msg: String) {
         runOnUiThread(
                 object : Runnable {
@@ -40,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         settings = PreferenceManager.getDefaultSharedPreferences(this)
-        var site = settings.getString("site", "")
-        var userId = settings.getString("user", "")
+        site = settings.getString("site", "")
+        userId = settings.getString("user", "")
 
         if (!userId.equals("")) {
             val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).putExtra("site", site).putExtra("user", userId)
