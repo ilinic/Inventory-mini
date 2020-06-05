@@ -48,6 +48,7 @@ public class InventoryActivity extends AppCompatActivity {
                                 case MSG_SUCCESS:
                                     loadingPanel.setVisibility(View.INVISIBLE);
                                     updateMenu();
+                                    listView.getAdapter().notifyDataSetChanged();
                             }
                         }
                     });
@@ -91,19 +92,15 @@ public class InventoryActivity extends AppCompatActivity {
 
                     case R.id.update_menu:
                         inventoryAdapter.loadInventory();
-                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                     case R.id.sort_name:
                         inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_NAME ? -InventoryAdapter.SORT_NAME : InventoryAdapter.SORT_NAME);
-                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                     case R.id.sort_id:
                         inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_ID ? -InventoryAdapter.SORT_ID : InventoryAdapter.SORT_ID);
-                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                     case R.id.sort_count:
                         inventoryAdapter.setSort(InventoryAdapter.curSort == InventoryAdapter.SORT_COUNT ? -InventoryAdapter.SORT_COUNT : InventoryAdapter.SORT_COUNT);
-                        inventoryAdapter.notifyDataSetChanged();
                         return true;
                 }
 
@@ -142,33 +139,33 @@ public class InventoryActivity extends AppCompatActivity {
         if (popup == null)
             return;
 
-        popup.getMenu().findItem(R.id.sort_name).setTitle(" " + getResources().getString(R.string.sort_name));
-        popup.getMenu().findItem(R.id.sort_id).setTitle(" " + getResources().getString(R.string.sort_id));
-        popup.getMenu().findItem(R.id.sort_count).setTitle(" " + getResources().getString(R.string.sort_count));
+        popup.getMenu().findItem(R.id.sort_name).setTitle("    " + getResources().getString(R.string.sort_name));
+        popup.getMenu().findItem(R.id.sort_id).setTitle("    " + getResources().getString(R.string.sort_id));
+        popup.getMenu().findItem(R.id.sort_count).setTitle("    " + getResources().getString(R.string.sort_count));
 
         switch (InventoryAdapter.curSort) {
             case InventoryAdapter.SORT_NAME:
-                popup.getMenu().findItem(R.id.sort_name).setTitle("+" + getResources().getString(R.string.sort_name));
+                popup.getMenu().findItem(R.id.sort_name).setTitle("◢ " + getResources().getString(R.string.sort_name));
                 break;
 
             case -InventoryAdapter.SORT_NAME:
-                popup.getMenu().findItem(R.id.sort_name).setTitle("-" + getResources().getString(R.string.sort_name));
+                popup.getMenu().findItem(R.id.sort_name).setTitle("◣ " + getResources().getString(R.string.sort_name));
                 break;
 
             case InventoryAdapter.SORT_ID:
-                popup.getMenu().findItem(R.id.sort_id).setTitle("+" + getResources().getString(R.string.sort_id));
+                popup.getMenu().findItem(R.id.sort_id).setTitle("◢ " + getResources().getString(R.string.sort_id));
                 break;
 
             case -InventoryAdapter.SORT_ID:
-                popup.getMenu().findItem(R.id.sort_id).setTitle("-" + getResources().getString(R.string.sort_id));
+                popup.getMenu().findItem(R.id.sort_id).setTitle("◣ " + getResources().getString(R.string.sort_id));
                 break;
 
             case InventoryAdapter.SORT_COUNT:
-                popup.getMenu().findItem(R.id.sort_count).setTitle("+" + getResources().getString(R.string.sort_count));
+                popup.getMenu().findItem(R.id.sort_count).setTitle("◢ " + getResources().getString(R.string.sort_count));
                 break;
 
             case -InventoryAdapter.SORT_COUNT:
-                popup.getMenu().findItem(R.id.sort_count).setTitle("-" + getResources().getString(R.string.sort_count));
+                popup.getMenu().findItem(R.id.sort_count).setTitle("◣ " + getResources().getString(R.string.sort_count));
                 break;
         }
     }

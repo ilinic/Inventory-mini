@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,9 +28,9 @@ import okhttp3.ResponseBody;
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvViewHolder> {
     public static final int SORT_NAME = 1, SORT_ID = 2, SORT_COUNT = 3;
     static int curSort;
+    private final Handler activityUIhandler;
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
-    private final Handler activityUIhandler;
 
     public InventoryAdapter(Handler handler) {
 
@@ -47,6 +48,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     synchronized public void setSort(int sort) {
         curSort = sort;
         Collections.sort(data);
+        activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_SUCCESS);
     }
 
     synchronized public void loadInventory() {
@@ -97,12 +99,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                                 Collections.addAll(data, gson.fromJson(responseBody.string(), JsonWrapper[].class));
 
                                 setSort(curSort);
-                                //notifyDataSetChanged();
-                                activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_SUCCESS);
 
                             } catch (Exception e) {
+
+                                Log.e("InventoryAdapter", "httpClient.onResponse", e);
                                 Message msg = new Message();
-                                msg.obj = e.getMessage() + " Ошибка. Проверьте соединение и данные";
+                                msg.obj = "Ошибка. Проверьте соединение и данные";
                                 msg.what = InventoryActivity.MSG_ERROR;
                                 activityUIhandler.sendMessage(msg);
                             }
@@ -110,6 +112,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                     });
 
         } catch (Exception e) {
+            Log.e("InventoryAdapter", "httpClient.newCall", e);
             Message msg = new Message();
             msg.obj = "Ошибка. Проверьте соединение и данные";
             msg.what = InventoryActivity.MSG_ERROR;
