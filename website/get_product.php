@@ -6,5 +6,5 @@ require('db.php');
 header('Content-Type: application/json');
 ?>
 <?php
-echo action($con, $_GET["uid"], $_GET["prodid"], $_GET["delta"]);
+echo get_product($con, $_GET["uid"],  $_GET["prodid"]);
 ?>

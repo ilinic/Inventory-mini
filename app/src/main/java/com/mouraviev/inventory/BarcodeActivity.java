@@ -63,7 +63,7 @@ public final class BarcodeActivity extends AppCompatActivity
     // Permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
     private static final long VIBRATE_QR_MSEC = 200;
-    private static final long VIBRATE_CHANGE_MSEC = 200;
+    private static final long VIBRATE_CHANGE_MSEC = 100;
     private String site, userId;
     private OkHttpClient httpClient;
     private TextView descTextView;
@@ -146,7 +146,7 @@ public final class BarcodeActivity extends AppCompatActivity
         findViewById(R.id.sendBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                sendAction(deltaEdit.getText().toString());
             }
         });
 
@@ -297,7 +297,7 @@ public final class BarcodeActivity extends AppCompatActivity
                             }
 
                             if (responseMap.get("prodid").equals(curCode)) {
-                                showOKToast();
+                                deltaOK();
                                 vibrate(VIBRATE_CHANGE_MSEC);
                                 showProdInfo("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
                             } else
@@ -310,15 +310,16 @@ public final class BarcodeActivity extends AppCompatActivity
         }
     }
 
-    private void showOKToast() {
+    private void deltaOK() {
 
         runOnUiThread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Изменен", Toast.LENGTH_SHORT);
+                        /*Toast toast = Toast.makeText(getApplicationContext(), "Изменен", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        toast.show();*/
+                        deltaEdit.setText("-1");
                     }
                 });
     }
