@@ -15,7 +15,7 @@ ONLINE PART:
 IMPORTANT:
 User ids or product ids (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
 User and product IDs should be UNIQUE STRINGS, otherwise errors will occur. Leading and trailing spaces are stripped.
-On product list update quantities of preserved products are not changed.
+When you perform product list update  - quantities of preserved products will not change.
 
 ANDROID PART:
 1. Login using server address and userId (string alpha numeric + "_" + "-").

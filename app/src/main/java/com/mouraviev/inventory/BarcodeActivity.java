@@ -244,8 +244,10 @@ public final class BarcodeActivity extends AppCompatActivity
 
     void sendAction(String delta) {
 
-        if (curCode.isEmpty())
+        if (curCode.isEmpty()) {
+            showToast("Не указан продукт");
             return;
+        }
 
         Request request;
 
@@ -539,7 +541,7 @@ public final class BarcodeActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP, 0, 180);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }
                 });
