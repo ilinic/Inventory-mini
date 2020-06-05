@@ -118,11 +118,14 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the inv_list_item manager)
     @Override
     public void onBindViewHolder(InvViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
-        holder.textView.setText("\u2211" + el.id + " №" + el.cnt + " " + el.name);
+
+        String id = String.format("%1$" + 10 + "s", "№" + el.id);
+        String cnt = String.format("%1$" + 10 + "s", " \u2211" + el.cnt);
+
+        holder.textView.setText(id + cnt + "   " + el.name);
     }
 
     // Return the size of your dataset (invoked by the inv_list_item manager)

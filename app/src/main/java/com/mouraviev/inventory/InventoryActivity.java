@@ -68,7 +68,7 @@ public class InventoryActivity extends AppCompatActivity {
 
         // use this setting to improve performance if you know that changes
         // in content do not change the inv_list_item size of the RecyclerView
-        //listView.setHasFixedSize(true);
+        listView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
