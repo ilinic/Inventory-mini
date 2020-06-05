@@ -124,7 +124,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     @Override
     public void onBindViewHolder(InvViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
-        holder.textView.setText("\u2211" + el.id + " №" + String.valueOf(el.cnt) + " " + el.name);
+        holder.textView.setText("\u2211" + el.id + " №" + el.cnt + " " + el.name);
     }
 
     // Return the size of your dataset (invoked by the inv_list_item manager)
