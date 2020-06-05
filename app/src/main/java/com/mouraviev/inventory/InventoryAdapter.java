@@ -72,7 +72,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                         }
 
                         @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        public void onResponse(@NotNull Call call, @NotNull Response response) {
                             if (!response.isSuccessful()) {
                                 Message msg = new Message();
                                 msg.obj = "Ошибка. Проверьте соединение и данные";
@@ -126,18 +126,17 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.inv_list_item, parent, false);
 
-        InvViewHolder vh = new InvViewHolder(v);
-        return vh;
+        return new InvViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(InvViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
 
-        String id = String.format("%1$-10s", "№ " + el.id);
-        String cnt = String.format(" ∑ %1$-6s", el.cnt);
+        String id = String.format("№ %1$-8s", el.id);
+        String cnt = String.format(" ∑ %1$-4s", el.cnt);
 
-        holder.textView.setText(id + cnt + "  " + el.name);
+        holder.textView.setText(String.format("%s%s  %s", id, cnt, el.name));
     }
 
     @Override
@@ -154,7 +153,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         }
     }
 
-    class JsonWrapper implements Comparable<JsonWrapper> {
+    static class JsonWrapper implements Comparable<JsonWrapper> {
         String id, name;
         int cnt;
 

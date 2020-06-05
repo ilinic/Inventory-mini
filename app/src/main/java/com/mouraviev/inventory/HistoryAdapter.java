@@ -64,7 +64,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                         }
 
                         @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        public void onResponse(@NotNull Call call, @NotNull Response response) {
                             if (!response.isSuccessful()) {
                                 Message msg = new Message();
                                 msg.obj = "Ошибка. Проверьте соединение и данные";
@@ -116,13 +116,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.hist_list_item, parent, false);
 
-        HistViewHolder vh = new HistViewHolder(v);
-        return vh;
+        return new HistViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(HistViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
+
+        // date delta cnt_before cnt_after prodid
+        // user_name prod_name
 
         String top = String.format("%s   𝚫 %d   ∑ %d → %d   № %s", el.dt, el.d, el.bf, el.af, el.pid);
         String bot = String.format("%s   %s", el.unme, el.pnme);
@@ -146,10 +148,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
         }
     }
 
-    class JsonWrapper {
-        // date delta cnt_before cnt_after prodid
-        // user_name prod_name
-
+    static class JsonWrapper {
         String dt, unme, pnme, pid;
         int d, bf, af;
     }
