@@ -28,7 +28,7 @@
             android:contentDescription="history"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:tint="#1FFFFFFF"
+            android:tint="#66FFFFFF"
             android:visibility="visible"
             app:srcCompat="@drawable/ic_photobtn" />
 
@@ -41,8 +41,9 @@
             android:contentDescription="plus"
             android:padding="10dp"
             android:scaleType="fitCenter"
+            android:tint="#66FFFFFF"
             android:visibility="visible"
-            app:srcCompat="@drawable/ic_inventorybtn" />
+            app:srcCompat="@drawable/ic_insert_chart_outlined_black_24dp" />
 
         <ImageButton
             android:id="@+id/historyBtn"
@@ -53,9 +54,9 @@
             android:contentDescription="history"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:tint="#6B000000"
+            android:tint="#E91E63"
             android:visibility="visible"
-            app:srcCompat="@drawable/ic_calendarbtn" />
+            app:srcCompat="@drawable/ic_calendar_today_black_24dp" />
 
     </LinearLayout>
 
