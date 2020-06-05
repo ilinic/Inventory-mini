@@ -1,20 +1,5 @@
 /*
- * Copyright (C) The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * This file and all BarcodeXXX and CameraXXX files in this project edited by
- * Daniell Algar (included due to copyright reason)
+    Author: Artem Mouraviev ilinic8@mail.ru
  */
 package com.mouraviev.inventory;
 
@@ -39,7 +24,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,32 +58,29 @@ public final class BarcodeActivity extends AppCompatActivity
         implements BarcodeTracker.BarcodeGraphicTrackerCallback {
 
     private static final String TAG = "Inventory mini";
-    private String site, userId;
-    private OkHttpClient httpClient;
-
-    private TextView descTextView;
-    private String curCode = "";
-
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
-
     // Permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
+    private static final long VIBRATE_QR_MSEC = 200;
+    private static final long VIBRATE_CHANGE_MSEC = 200;
+    private String site, userId;
+    private OkHttpClient httpClient;
+    private TextView descTextView;
+    private EditText codeEdit, deltaEdit;
+    private String curCode = "";
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
 
-    /**
-     * Initializes the UI and creates the detector pipeline.
-     */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_barcode);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        site = icicle.getString("site");
-        userId = icicle.getString("user");
+        site = getIntent().getExtras().getString("site");
+        userId = getIntent().getExtras().getString("user");
 
         httpClient = new OkHttpClient.Builder()
                 .callTimeout(2, TimeUnit.SECONDS)
@@ -103,7 +90,65 @@ public final class BarcodeActivity extends AppCompatActivity
         mPreview.setMinimumHeight(mPreview.getWidth());
 
         descTextView = findViewById(R.id.descText);
-        descTextView.setShadowLayer(50, 0, 0, Color.WHITE);
+        descTextView.setShadowLayer(50.0f, 0.0f, 0.0f, Color.WHITE);
+
+        codeEdit = findViewById(R.id.codeEdit);
+        codeEdit.setVisibility(View.INVISIBLE);
+
+        deltaEdit = findViewById(R.id.deltaEdit);
+
+        findViewById(R.id.enterCodeBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (codeEdit.getVisibility() == View.INVISIBLE) {
+                    codeEdit.setText("");
+                    codeEdit.setVisibility(View.VISIBLE);
+                } else
+                    codeEdit.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        codeEdit.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    processQRCode(codeEdit.getText().toString());
+
+                    InputMethodManager inputManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(codeEdit.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        findViewById(R.id.plusBtn).setOnTouchListener(new RepeatListener(400, 100, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int curDelta = Integer.parseInt(deltaEdit.getText().toString());
+                curDelta++;
+                deltaEdit.setText(String.valueOf(curDelta));
+                deltaEdit.invalidate();
+            }
+        }));
+
+        findViewById(R.id.minusBtn).setOnTouchListener(new RepeatListener(400, 100, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int curDelta = Integer.parseInt(deltaEdit.getText().toString());
+                curDelta--;
+                deltaEdit.setText(String.valueOf(curDelta));
+                deltaEdit.invalidate();
+            }
+        }));
+
+        findViewById(R.id.sendBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         boolean autoFocus = true;
         boolean useFlash = false;
@@ -164,25 +209,31 @@ public final class BarcodeActivity extends AppCompatActivity
                                     TypeToken<Map<String, String>>() {
                                     }.getType());
 
-                            if (!responseMap.get("prodid").equalsIgnoreCase(curCode))
+                            if (!responseMap.get("prodid").equals(curCode))
                                 return;
 
-                            if (responseMap.get("err").equalsIgnoreCase("1")) {
+                            if (responseMap.get("err").equals("1")) {
                                 showToast("Ошибка авторизации. Проверьте соединение и данные");
+                                showProdInfo("");
+                                curCode = "";
                                 return;
                             }
 
-                            if (responseMap.get("err").equalsIgnoreCase("2")) {
-                                showToast("Не найден продукт. Проверьте соединение и данные");
+                            if (responseMap.get("err").equals("2")) {
+                                showProdInfo("Не найден №" + responseMap.get("prodid"));
+                                showToast("Не найден №" + responseMap.get("prodid") + ". Проверьте данные");
+                                curCode = "";
                                 return;
                             }
 
-                            if (!responseMap.get("err").equalsIgnoreCase("0")) {
+                            if (!responseMap.get("err").equals("0")) {
                                 showToast("Ошибка. Проверьте соединение и данные");
+                                showProdInfo("");
+                                curCode = "";
                                 return;
                             }
 
-                            descTextView.setText("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                            showProdInfo("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
                         }
                     });
 
@@ -191,24 +242,111 @@ public final class BarcodeActivity extends AppCompatActivity
         }
     }
 
+    void sendAction(String delta) {
+
+        if (curCode.isEmpty())
+            return;
+
+        Request request;
+
+        try {
+            request = new Request.Builder()
+                    .url(site + "/act?uid=" + userId + "&prodid=" + curCode + "&delta=" + delta)
+                    .build();
+
+            httpClient.newCall(request).enqueue(
+                    new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            showToast("Ошибка. Проверьте соединение и данные");
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            if (!response.isSuccessful()) {
+                                showToast("Ошибка. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            ResponseBody responseBody = response.body();
+
+                            if (responseBody == null) {
+                                showToast("Ошибка. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            Gson gson = new Gson();
+
+                            Map<String, String> responseMap = gson.fromJson(responseBody.string(), new
+                                    TypeToken<Map<String, String>>() {
+                                    }.getType());
+
+                            if (responseMap.get("err").equals("1")) {
+                                showToast("Ошибка авторизации. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            if (responseMap.get("err").equals("2")) {
+                                showProdInfo("Не найден №" + responseMap.get("prodid"));
+                                return;
+                            }
+
+                            if (!responseMap.get("err").equals("0")) {
+                                showToast("Ошибка. Проверьте соединение и данные");
+                                return;
+                            }
+
+                            if (responseMap.get("prodid").equals(curCode)) {
+                                showOKToast();
+                                vibrate(VIBRATE_CHANGE_MSEC);
+                                showProdInfo("\u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                            } else
+                                showToast("Изменен: \u2211" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                        }
+                    });
+
+        } catch (Exception e) {
+            showToast("Ошибка. Проверьте соединение и данные");
+        }
+    }
+
+    private void showOKToast() {
+
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Изменен", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                });
+    }
 
     @Override
     public void onDetectedQrCode(Barcode barcode) {
         if (barcode != null) {
 
+            if (barcode.displayValue.equals(curCode))
+                return;
+
             final String barcodeText = barcode.displayValue;
 
-            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-            // Vibrate for 500 milliseconds
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-            else
-                //deprecated in API 26
-                v.vibrate(500);
+            vibrate(VIBRATE_QR_MSEC);
 
             processQRCode(barcodeText);
         }
+    }
+
+    private void vibrate(long len) {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        // Vibrate for 500 milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            v.vibrate(VibrationEffect.createOneShot(len, VibrationEffect.DEFAULT_AMPLITUDE));
+        else
+            //deprecated in API 26
+            v.vibrate(len);
     }
 
     // Handles the requesting of the camera permission.
@@ -362,7 +500,7 @@ public final class BarcodeActivity extends AppCompatActivity
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Multitracker sample")
+        builder.setTitle("Inventory mini")
                 .setMessage(R.string.no_camera_permission)
                 .setPositiveButton(R.string.ok, listener)
                 .show();
@@ -394,17 +532,28 @@ public final class BarcodeActivity extends AppCompatActivity
         }
     }
 
-    void showToast(String msg) {
+    void showToast(final String msg) {
         runOnUiThread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        Toast toast = Toast.makeText(msg, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP, 0, 160);
+                        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 180);
                         toast.show();
                     }
-                }
-        )
+                });
     }
+
+    void showProdInfo(final String msg) {
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        descTextView.setText(msg);
+                        deltaEdit.setText("-1");
+                    }
+                });
+    }
+
 
 }

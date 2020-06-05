@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +37,9 @@
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false">
 
         </com.mouraviev.inventory.CameraSourcePreview>
 
@@ -55,6 +58,32 @@
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/edit" />
+
+    <EditText
+        android:id="@+id/codeEdit"
+        android:layout_width="284dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:autofillHints=""
+        android:background="@android:drawable/editbox_background_normal"
+        android:clickable="true"
+        android:cursorVisible="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/enter_code_hint"
+        android:imeOptions="actionDone"
+        android:inputType="textNoSuggestions"
+        android:singleLine="true"
+        android:textAlignment="textStart"
+        android:textColor="#7D7D7D"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/enterCodeBtn" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -82,7 +111,7 @@
             app:srcCompat="@drawable/plus" />
 
         <EditText
-            android:id="@+id/countEdit"
+            android:id="@+id/deltaEdit"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -91,13 +120,14 @@
             android:cursorVisible="false"
             android:ems="10"
             android:enabled="true"
+            android:focusable="true"
             android:gravity="center"
             android:importantForAutofill="no"
             android:inputType="numberSigned"
             android:isScrollContainer="false"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="-1"
+            android:text="@string/delta_default"
             android:textAlignment="center"
             android:textColor="#FF000000"
             android:textSize="30sp"
@@ -129,6 +159,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:background="@color/colorAccent"
+        android:editable="false"
+        android:focusable="false"
         android:foregroundGravity="center_horizontal"
         android:text="@string/scan_barcode_button"
         android:textColor="@color/colorWhite"
@@ -145,10 +177,12 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:autoText="false"
         android:background="@null"
         android:contentDescription="@string/app_name"
+        android:editable="false"
         android:ems="10"
+        android:enabled="false"
+        android:focusable="false"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:maxHeight="80dp"
@@ -156,7 +190,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="@string/hint"
-        android:textColor="#ED1E79"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="@id/linearLayout1"
         app:layout_constraintEnd_toEndOf="@id/linearLayout1"
         app:layout_constraintLeft_toLeftOf="@id/linearLayout1" />

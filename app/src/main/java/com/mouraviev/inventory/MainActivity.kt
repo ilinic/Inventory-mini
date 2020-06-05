@@ -1,3 +1,6 @@
+/*
+    Author: Artem Mouraviev ilinic8@mail.ru
+ */
 package com.mouraviev.inventory
 
 import android.content.Intent
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         if (!userId.equals("")) {
             val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).putExtra("site", site).putExtra("user", userId)
+
             startActivity(intent)
             finish()
         }
