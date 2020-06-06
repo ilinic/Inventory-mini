@@ -142,7 +142,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
         else
             holder.textView.setBackgroundColor(0x0);
 
-        holder.textView.setText(String.format("№ %1$-8s ∑ %1$-4s  %s", el.id, el.cnt, el.name));
+        holder.textView.setText(el.fullStr);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     }
 
     static class JsonWrapper implements Comparable<JsonWrapper> {
-        String id, name;
+        String id, name, fullStr;
         int cnt;
 
         @Override

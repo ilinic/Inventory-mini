@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mouraviev.inventory.HistoryActivity">
     <item
-        android:id="@+id/hist_update"
+        android:id="@+id/menu_hist_update"
         android:orderInCategory="100"
         android:title="@string/update_menu"
         app:showAsAction="never" />

@@ -57,8 +57,8 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <?php $count++; } ?>
 </tbody>
 </table>
-<br><p><strong><?php echo "Всего: ".$count;  ?></strong></p>
-<div class="top"><p><a href="./mini-inventory.apk" class="top"><img src="downloadbtn.png" title="Download Mini Inventory Android" alt="Mini Inventory"></a></p></div>
+<br><strong><?php echo "Всего: ".$count;  ?></strong>
+<div class="top"><a href="./inventory-mini.apk">Download Android App&nbsp;&nbsp;&nbsp;<img src="favicon.ico" width = "20px" height="20px" alt="Mini Inventory" style="vertical-align: middle;"></a></div>
 </div>
 </body>
 </html>

@@ -1,3 +1,6 @@
+/*
+    Author: Artem Mouraviev ilinic8@mail.ru
+ */
 package com.mouraviev.inventory;
 
 import android.annotation.SuppressLint;
@@ -37,7 +40,7 @@ public class HistoryActivity extends AppCompatActivity {
                         public void run() {
                             switch (msg1.what) {
                                 case MSG_ERROR:
-                                    Toast toast = Toast.makeText(getApplicationContext(), (String) msg1.obj, Toast.LENGTH_SHORT);
+                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.html_error), Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, 0, 0);
                                     toast.show();
                                     loadingPanel.setVisibility(View.INVISIBLE);

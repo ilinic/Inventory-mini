@@ -177,16 +177,6 @@ public final class BarcodeActivity extends AppCompatActivity
             requestCameraPermission();
         }
     }
-/*
-
-    @Override
-    public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
-    }
-*/
 
     void processQRCode(String code) {
 
@@ -203,20 +193,20 @@ public final class BarcodeActivity extends AppCompatActivity
                     new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            showToast("Ошибка. Проверьте соединение и данные");
+                            showToast(getString(R.string.html_error));
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             if (!response.isSuccessful()) {
-                                showToast("Ошибка. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_error));
                                 return;
                             }
 
                             ResponseBody responseBody = response.body();
 
                             if (responseBody == null) {
-                                showToast("Ошибка. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_error));
                                 return;
                             }
 
@@ -230,21 +220,21 @@ public final class BarcodeActivity extends AppCompatActivity
                                 return;
 
                             if (responseMap.get("err").equals("1")) {
-                                showToast("Ошибка авторизации. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_auth_error));
                                 showProdInfo("");
                                 curCode = "";
                                 return;
                             }
 
                             if (responseMap.get("err").equals("2")) {
-                                showProdInfo("Не найден №" + responseMap.get("prodid"));
-                                showToast("Не найден №" + responseMap.get("prodid") + ". Проверьте данные");
+                                showProdInfo(getString(R.string.prod_not_found) + responseMap.get("prodid"));
+                                showToast(getString(R.string.prod_not_found) + responseMap.get("prodid") + getString(R.string.check_data));
                                 curCode = "";
                                 return;
                             }
 
                             if (!responseMap.get("err").equals("0")) {
-                                showToast("Ошибка. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_error));
                                 showProdInfo("");
                                 curCode = "";
                                 return;
@@ -255,14 +245,14 @@ public final class BarcodeActivity extends AppCompatActivity
                     });
 
         } catch (Exception e) {
-            showToast("Ошибка. Проверьте соединение и данные");
+            showToast(getString(R.string.html_error));
         }
     }
 
     void sendAction(String delta) {
 
         if (curCode.isEmpty()) {
-            showToast("Не указан продукт");
+            showToast(getString(R.string.no_prod_error));
             return;
         }
 
@@ -277,20 +267,20 @@ public final class BarcodeActivity extends AppCompatActivity
                     new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            showToast("Ошибка. Проверьте соединение и данные");
+                            showToast(getString(R.string.html_error));
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             if (!response.isSuccessful()) {
-                                showToast("Ошибка. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_error));
                                 return;
                             }
 
                             ResponseBody responseBody = response.body();
 
                             if (responseBody == null) {
-                                showToast("Ошибка. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_error));
                                 return;
                             }
 
@@ -301,17 +291,17 @@ public final class BarcodeActivity extends AppCompatActivity
                                     }.getType());
 
                             if (responseMap.get("err").equals("1")) {
-                                showToast("Ошибка авторизации. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_auth_error));
                                 return;
                             }
 
                             if (responseMap.get("err").equals("2")) {
-                                showProdInfo("Не найден №" + responseMap.get("prodid"));
+                                showProdInfo(getString(R.string.prod_not_found) + responseMap.get("prodid"));
                                 return;
                             }
 
                             if (!responseMap.get("err").equals("0")) {
-                                showToast("Ошибка. Проверьте соединение и данные");
+                                showToast(getString(R.string.html_error));
                                 return;
                             }
 
@@ -325,7 +315,7 @@ public final class BarcodeActivity extends AppCompatActivity
                     });
 
         } catch (Exception e) {
-            showToast("Ошибка. Проверьте соединение и данные");
+            showToast(getString(R.string.html_error));
         }
     }
 
@@ -353,6 +343,14 @@ public final class BarcodeActivity extends AppCompatActivity
             final String barcodeText = barcode.displayValue;
 
             vibrate(VIBRATE_QR_MSEC);
+
+            runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            codeEdit.setVisibility(View.INVISIBLE);
+                        }
+                    });
 
             processQRCode(barcodeText);
         }

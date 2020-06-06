@@ -61,29 +61,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                     new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Message msg = new Message();
-                            msg.obj = "Ошибка. Проверьте соединение и данные";
-                            msg.what = HistoryActivity.MSG_ERROR;
-                            activityUIhandler.sendMessage(msg);
+                            activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_ERROR);
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) {
                             if (!response.isSuccessful()) {
-                                Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = HistoryActivity.MSG_ERROR;
-                                activityUIhandler.sendMessage(msg);
+                                activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_ERROR);
                                 return;
                             }
 
                             ResponseBody responseBody = response.body();
 
                             if (responseBody == null) {
-                                Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = HistoryActivity.MSG_ERROR;
-                                activityUIhandler.sendMessage(msg);
+                                activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_ERROR);
                                 return;
                             }
 
@@ -99,20 +90,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                             } catch (Exception e) {
 
                                 Log.e("HistoryAdapter", "httpClient.onResponse", e);
-                                Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = HistoryActivity.MSG_ERROR;
-                                activityUIhandler.sendMessage(msg);
+                                activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_ERROR);
                             }
                         }
                     });
 
         } catch (Exception e) {
             Log.e("HistoryAdapter", "httpClient.newCall", e);
-            Message msg = new Message();
-            msg.obj = "Ошибка. Проверьте соединение и данные";
-            msg.what = HistoryActivity.MSG_ERROR;
-            activityUIhandler.sendMessage(msg);
+            activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_ERROR);
         }
     }
 
@@ -129,14 +114,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
     public void onBindViewHolder(HistViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
 
-        // date delta cnt_before cnt_after prodid
-        // user_name prod_name
-
-        String top = String.format("%s  𝚫 %d ∑ %d→%d № %s", el.dt, el.d, el.bf, el.af, el.pid);
-        String bot = String.format("%s → %s", el.unme, el.pnme);
-
-        holder.textTopView.setText(top);
-        holder.textBotView.setText(bot);
+        holder.textTopView.setText(el.topStr);
+        holder.textBotView.setText(el.botStr);
 
         if (position % 2 == 0)
             holder.topView.setBackgroundColor(darkenColor);
@@ -162,7 +141,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
     }
 
     static class JsonWrapper {
-        String dt, unme, pnme, pid;
-        int d, bf, af;
+        String topStr, botStr;
     }
 }

@@ -3,11 +3,18 @@
 Author: Artem Mouraviev ilinic8@mail.ru
 */
 
+// Limits on number of history records online and in Android app
 const __MAX_WEBSITE_HISTORY__ = 1000;   
 const __MAX_ANROID_APP_HISTORY__ = 200; 
 
-//$con = mysqli_connect("127.0.0.1", "my_user", "my_password", "my_db");
+// format strings to control inventory and history list appearance in Android app
+const __INVENTORY_TO_ANDROID_APP_FORMAT__ = "№ %-8s ∑ %-4s %s"; //  s s s = prodId count prodName
+const __HISTORY_TO_ANDROID_APP_FORMAT_STR_TOP__ = "%s  𝚫 %s ∑ %s→%s № %s"; //date, delta, count_before, count_after, productId
+const __HISTORY_TO_ANDROID_APP_FORMAT_STR_BOTTOM__ = "%s → %s"; // userName, productName
+
+//Database connection mysqli_connect("127.0.0.1", "my_user", "my_password", "my_db");
 $con = mysqli_connect("localhost", "samogo6c_sklad", "sklad123_", "samogo6c_sklad");
+
 // Check connection
 if (mysqli_connect_errno())
 {
@@ -238,8 +245,14 @@ function get_inventory($con, $userid)
     
     $sel_query = "SELECT id, count AS cnt, prodname AS name FROM products";
     $result = mysqli_query($con, $sel_query);
+    
+    //String.format("№ %1$-8s ∑ %1$-4s  %s", el.id, el.cnt, el.name)
+    
     while($row = mysqli_fetch_assoc($result))
+    {   
+        $row["fullStr"] = sprintf(__INVENTORY_TO_ANDROID_APP_FORMAT__, $row["id"], $row["cnt"], $row["name"]);
         $res[] = $row;
+    }
 
     return json_encode($res);
 }
@@ -261,9 +274,14 @@ function get_history($con, $userid)
     $result = mysqli_query($con, $sel_query);
     while($row = mysqli_fetch_assoc($result))
     {
-        $row["dt"] = date("H:i:s d M y",strtotime($row["actiondate"]));
-        unset($row["actiondate"]);
-        $res[] = $row;
+        $topStr = sprintf(__HISTORY_TO_ANDROID_APP_FORMAT_STR_TOP__,  date("H:i:s d M y",strtotime($row["actiondate"])), $row["d"], $row["bf"], $row["af"], $row["pid"]);
+        $botStr = sprintf(__HISTORY_TO_ANDROID_APP_FORMAT_STR_BOTTOM__, $row["unme"], $row["pnme"]);
+        
+        $rec["topStr"] = $topStr;
+        $rec["botStr"] = $botStr;
+
+
+        $res[] = $rec;
     }
 
     return json_encode($res);

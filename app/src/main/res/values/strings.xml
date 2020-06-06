@@ -4,18 +4,18 @@
     <!-- Strings related to MainActivity-->
     <string name="scan_barcode_button">Записать</string>
     <string name="login_button">Логин</string>
-    <string name="no_barcode_captured">No barcode captured</string>
-    <string name="barcode_error_format">"Error reading barcode: %1$s"</string>
+    <string name="no_barcode_captured">Не распознаны QR коды</string>
+    <string name="barcode_error_format">"Ошибка чтения кода: %1$s"</string>
 
     <!-- Strings related to barcode scanner -->
     <string name="ok">OK</string>
-    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
-    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="permission_camera_rationale">Необходим доступ к камере</string>
+    <string name="no_camera_permission">Невозможно выполенение без доступа к камере. Приложение будет закрыто.</string>
+    <string name="low_storage_error">Невозможно детектирование лиц из-за низкого объема хранилища</string>
     <string name="hint">Наведите камеру на QR код</string>
     <string name="webaddress_hint">https://server.com</string>
     <string name="userid_hint">Secret_user_Id</string>
-    <string name="enter_code_hint">Enter product code</string>
+    <string name="enter_code_hint">Введите код продукта</string>
     <string name="delta_default">-1</string>
     <string name="update_menu">Обновить</string>
     <string name="title_activity_inventory">ScrollingActivity</string>
@@ -23,4 +23,9 @@
     <string name="sort_id">по инв#</string>
     <string name="sort_count">по кол-ву</string>
     <string name="sort_sep">Сортировка</string>
+    <string name="html_error">Ошибка. Проверьте соединение и данные</string>
+    <string name="html_auth_error">Ошибка авторизации. Проверьте соединение и данные</string>
+    <string name="prod_not_found">Не найден №</string>
+    <string name="no_prod_error">Не указан продукт</string>
+    <string name="check_data">. Проверьте данные</string>
 </resources>
