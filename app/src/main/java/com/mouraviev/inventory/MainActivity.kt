@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
 
                                 val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                                 startActivity(intent)
+                                finish()
                                 overridePendingTransition(0, 0)
                             }
                         })
