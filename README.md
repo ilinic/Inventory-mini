@@ -1,6 +1,8 @@
 Inventory mini
 _________________
 
+<a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website/inventory-mini.apk">Download APK</a><a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website.rar">Download Website Archive</a>
+
 Tracks list of products and changes history - online.
 Android app to scan QR code (product#) and record changes in product quantity (with username and timestamp). Scan code or enter product# manually.
 Show inventory and history in Android app and online.
