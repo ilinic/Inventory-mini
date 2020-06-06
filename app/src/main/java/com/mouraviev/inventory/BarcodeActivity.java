@@ -243,7 +243,7 @@ public final class BarcodeActivity extends AppCompatActivity
                                 return;
                             }
 
-                            showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"), deltaEdit.getText().toString().equals("0") ? "-1" : deltaEdit.getText().toString());
+                            showProdInfo("№" + responseMap.get("prodid") + " ∑" + responseMap.get("count") + " " + responseMap.get("prodname"), deltaEdit.getText().toString().equals("0") ? "-1" : deltaEdit.getText().toString());
                         }
                     });
 
