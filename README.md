@@ -36,7 +36,3 @@ INSTALLATION
 8. verify correct access rights for php and csv files
 9. download and install android application.
 10. provide full website address and userId (from users.csv file) in application to login.
-
-
-Author:
-Artem Mouraviev
