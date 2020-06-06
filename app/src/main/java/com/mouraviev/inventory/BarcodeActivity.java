@@ -224,13 +224,13 @@ public final class BarcodeActivity extends AppCompatActivity
 
                             if (responseMap.get("err").equals("1")) {
                                 showToast(getString(R.string.html_auth_error));
-                                showProdInfo("");
+                                showProdInfo("", "0");
                                 curCode = "";
                                 return;
                             }
 
                             if (responseMap.get("err").equals("2")) {
-                                showProdInfo(getString(R.string.prod_not_found) + responseMap.get("prodid"));
+                                showProdInfo(getString(R.string.prod_not_found) + responseMap.get("prodid"), "0");
                                 showToast(getString(R.string.prod_not_found) + responseMap.get("prodid") + getString(R.string.check_data));
                                 curCode = "";
                                 return;
@@ -238,12 +238,12 @@ public final class BarcodeActivity extends AppCompatActivity
 
                             if (!responseMap.get("err").equals("0")) {
                                 showToast(getString(R.string.html_error));
-                                showProdInfo("");
+                                showProdInfo("", "0");
                                 curCode = "";
                                 return;
                             }
 
-                            showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                            showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"), deltaEdit.getText().toString().equals("0") ? "-1" : deltaEdit.getText().toString());
                         }
                     });
 
@@ -258,6 +258,9 @@ public final class BarcodeActivity extends AppCompatActivity
             showToast(getString(R.string.no_prod_error));
             return;
         }
+
+        if (delta.equals("0"))
+            return;
 
         Request request;
 
@@ -299,7 +302,7 @@ public final class BarcodeActivity extends AppCompatActivity
                             }
 
                             if (responseMap.get("err").equals("2")) {
-                                showProdInfo(getString(R.string.prod_not_found) + responseMap.get("prodid"));
+                                showProdInfo(getString(R.string.prod_not_found) + responseMap.get("prodid"), "0");
                                 return;
                             }
 
@@ -309,9 +312,8 @@ public final class BarcodeActivity extends AppCompatActivity
                             }
 
                             if (responseMap.get("prodid").equals(curCode)) {
-                                deltaOK();
                                 vibrate(VIBRATE_CHANGE_MSEC);
-                                showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
+                                showProdInfo("∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"), "0");
                             } else
                                 showToast("Изменен: ∑" + responseMap.get("count") + " №" + responseMap.get("prodid") + " " + responseMap.get("prodname"));
                         }
@@ -320,20 +322,6 @@ public final class BarcodeActivity extends AppCompatActivity
         } catch (Exception e) {
             showToast(getString(R.string.html_error));
         }
-    }
-
-    private void deltaOK() {
-
-        runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        /*Toast toast = Toast.makeText(getApplicationContext(), "Изменен", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();*/
-                        deltaEdit.setText("-1");
-                    }
-                });
     }
 
     @Override
@@ -566,13 +554,13 @@ public final class BarcodeActivity extends AppCompatActivity
                 });
     }
 
-    void showProdInfo(final String msg) {
+    void showProdInfo(final String msg, final String enterVal) {
         runOnUiThread(
                 new Runnable() {
                     @Override
                     public void run() {
                         setDescription(msg);
-                        deltaEdit.setText("-1");
+                        deltaEdit.setText(enterVal);
                     }
                 });
     }
