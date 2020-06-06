@@ -37,5 +37,5 @@ INSTALLATION
 6. verify correct protocol for the site (http or https)
 7. edit and verify correct data in products.csv and users.csv files
 8. verify correct access rights for php and csv files
-9. download and install android application.
+9. download and install android application APK from link on products page.
 10. provide full website address and userId (from users.csv file) in application to login.
