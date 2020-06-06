@@ -24,6 +24,9 @@ ANDROID PART:
 3. Manually enter product code in case of QR code scan error
 4. Manually enter delta, or hold + - buttons for faster value change
 5. To change working (correct) server adsress (website) or userId - remove and reinstall application
+6. On inventory page - you can sort on product ID, name or quantity. And refresh list from server.
+7. On history page - just view last inventory changes
+8. Number of history items and product and history list appearances are partially customizable in db.php file
 
 INSTALLATION
 1. get shared hosting or dedicated server with PHP and MySQL
