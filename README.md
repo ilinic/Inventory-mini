@@ -41,4 +41,7 @@ INSTALLATION
 10. type FULL (with http...) website address and userId (from users.csv file) to application on login screen.
 
 ANDROID SCREENSHOTS
+![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/login.png?raw=true)
+![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/scan.png?raw=true)
+![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/inv.png?raw=true)
 ![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/hist.png?raw=true)
