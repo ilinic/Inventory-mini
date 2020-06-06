@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +20,9 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -86,14 +88,13 @@ public final class BarcodeActivity extends AppCompatActivity
         mPreview.setMinimumHeight(mPreview.getWidth());
 
         descTextView = findViewById(R.id.descText);
-        descTextView.setShadowLayer(50.0f, 0.0f, 0.0f, Color.WHITE);
+        //descTextView.setShadowLayer(5.0f, 0.0f, 0.0f, Color.WHITE);
+        setDescription(getString(R.string.hint));
 
         codeEdit = findViewById(R.id.codeEdit);
         codeEdit.setVisibility(View.INVISIBLE);
 
         deltaEdit = findViewById(R.id.deltaEdit);
-
-        descTextView.setText("");
         deltaEdit.setText("-1");
 
         findViewById(R.id.inventoryBtn).setOnClickListener(new View.OnClickListener() {
@@ -570,11 +571,18 @@ public final class BarcodeActivity extends AppCompatActivity
                 new Runnable() {
                     @Override
                     public void run() {
-                        descTextView.setText(msg);
+                        setDescription(msg);
                         deltaEdit.setText("-1");
                     }
                 });
     }
 
+    void setDescription(String msg) {
+        //descTextView.setShadowLayer(5.0f, 0.0f, 0.0f, Color.WHITE);
+        msg = " " + msg + " ";
+        Spannable spanna = new SpannableString(msg);
+        spanna.setSpan(new BackgroundColorSpan(0xFFCCCCCC), 0, msg.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        descTextView.setText(spanna);
+    }
 
 }
