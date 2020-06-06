@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -104,7 +105,7 @@ public class HistoryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
 
-        historyAdapter = new HistoryAdapter(handler);
+        historyAdapter = new HistoryAdapter(handler, ContextCompat.getColor(getApplicationContext(), R.color.color_item_dark));
 
         listView.setAdapter(historyAdapter);
 

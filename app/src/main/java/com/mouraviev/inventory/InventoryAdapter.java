@@ -1,5 +1,6 @@
 package com.mouraviev.inventory;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -29,10 +30,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     public static final int SORT_NAME = 1, SORT_ID = 2, SORT_COUNT = 3;
     static int curSort;
     private final Handler activityUIhandler;
+    private final int darkenColor;
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
 
-    public InventoryAdapter(Handler handler) {
+    public InventoryAdapter(Handler handler, int darken) {
+
+        darkenColor = darken;
 
         activityUIhandler = handler;
 
@@ -135,6 +139,11 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
 
         String id = String.format("№ %1$-8s", el.id);
         String cnt = String.format(" ∑ %1$-4s", el.cnt);
+
+        if (position % 2 == 0)
+            holder.textView.setBackgroundColor(darkenColor);
+        else
+            holder.textView.setBackgroundColor(0x0);
 
         holder.textView.setText(String.format("%s%s  %s", id, cnt, el.name));
     }

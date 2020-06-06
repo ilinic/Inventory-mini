@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -20,7 +21,7 @@ public class InventoryActivity extends AppCompatActivity {
     public static final int MSG_ERROR = 1;
     public static final int MSG_SUCCESS = 2;
     PopupMenu popup = null;
-
+    RecyclerView listView;
     @SuppressLint("HandlerLeak")
     public final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -54,8 +55,6 @@ public class InventoryActivity extends AppCompatActivity {
                     });
         }
     };
-
-    RecyclerView listView;
     InventoryAdapter inventoryAdapter;
 
     @Override
@@ -120,7 +119,7 @@ public class InventoryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
 
-        inventoryAdapter = new InventoryAdapter(handler);
+        inventoryAdapter = new InventoryAdapter(handler, ContextCompat.getColor(getApplicationContext(), R.color.color_item_dark));
 
         listView.setAdapter(inventoryAdapter);
 

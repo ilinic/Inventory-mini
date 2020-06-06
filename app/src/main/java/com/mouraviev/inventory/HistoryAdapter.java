@@ -1,5 +1,6 @@
 package com.mouraviev.inventory;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -28,10 +29,13 @@ import okhttp3.ResponseBody;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistViewHolder> {
 
     private final Handler activityUIhandler;
+    private final int darkenColor;
     private ArrayList<JsonWrapper> data;
     private OkHttpClient httpClient;
 
-    public HistoryAdapter(Handler handler) {
+    public HistoryAdapter(Handler handler, int darken) {
+
+        darkenColor = darken;
 
         activityUIhandler = handler;
 
@@ -90,9 +94,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                                 data = new ArrayList<>();
                                 Collections.addAll(data, gson.fromJson(responseBody.string(), JsonWrapper[].class));
 
+                                activityUIhandler.sendEmptyMessage(HistoryActivity.MSG_SUCCESS);
+
                             } catch (Exception e) {
 
-                                Log.e("InventoryAdapter", "httpClient.onResponse", e);
+                                Log.e("HistoryAdapter", "httpClient.onResponse", e);
                                 Message msg = new Message();
                                 msg.obj = "Ошибка. Проверьте соединение и данные";
                                 msg.what = HistoryActivity.MSG_ERROR;
@@ -102,7 +108,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
                     });
 
         } catch (Exception e) {
-            Log.e("InventoryAdapter", "httpClient.newCall", e);
+            Log.e("HistoryAdapter", "httpClient.newCall", e);
             Message msg = new Message();
             msg.obj = "Ошибка. Проверьте соединение и данные";
             msg.what = HistoryActivity.MSG_ERROR;
@@ -126,11 +132,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
         // date delta cnt_before cnt_after prodid
         // user_name prod_name
 
-        String top = String.format("%s   𝚫 %d   ∑ %d → %d   № %s", el.dt, el.d, el.bf, el.af, el.pid);
-        String bot = String.format("%s   %s", el.unme, el.pnme);
+        String top = String.format("%s  𝚫 %d ∑ %d→%d № %s", el.dt, el.d, el.bf, el.af, el.pid);
+        String bot = String.format("%s → %s", el.unme, el.pnme);
 
         holder.textTopView.setText(top);
         holder.textBotView.setText(bot);
+
+        if (position % 2 == 0)
+            holder.topView.setBackgroundColor(darkenColor);
+        else
+            holder.topView.setBackgroundColor(0x0);
     }
 
     @Override
@@ -140,11 +151,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistView
 
     public static class HistViewHolder extends RecyclerView.ViewHolder {
         TextView textTopView, textBotView;
+        View topView;
 
         public HistViewHolder(View v) {
             super(v);
             textTopView = v.findViewById(R.id.hist_top_text);
             textBotView = v.findViewById(R.id.hist_bot_text);
+            topView = v;
         }
     }
 
