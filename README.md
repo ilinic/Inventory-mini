@@ -1,18 +1,19 @@
 Inventory mini
 _________________
 
-Download   <a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website/inventory-mini.apk">APK</a>                                         <a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website.rar">Website Archive</a>
+Download   <a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website/inventory-mini.apk">APK</a><pre>       </pre><a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website.rar">Website Archive</a>
 
 Tracks list of products and changes history - online.
 Android app to scan QR code (product#) and record changes in product quantity (with username and timestamp). Scan code or enter product# manually.
 Show inventory and history in Android app and online.
 
 ONLINE PART:
-1. List products quantity with field sort
-2. List history of changes (user, date, delta, etc.)
-3. Click on product# to generate QR code for printing
-4. To update product list - just edit products.csv file on hosting and refresh products page - red "products updated" string will appear
-5. To update user list - just edit users.csv file on hosting and refresh products page - red "users updated" string will appear on the page
+1. Provide simple login functionality
+2. List products quantity with field sort
+3. List history of changes (user, date, delta, etc.)
+4. Click on product# to generate QR code for printing
+5. To update product list - just edit products.csv file on hosting and refresh products page - red "products updated" string will appear
+6. To update user list - just edit users.csv file on hosting and refresh products page - red "users updated" string will appear on the page
 
 IMPORTANT:
 User IDs or product IDs (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
