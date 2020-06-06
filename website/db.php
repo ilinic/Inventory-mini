@@ -1,6 +1,6 @@
 <?php
 /*
-Author: Artem Mouraviev ilinic8@mail.ru
+Author: Artem M br_in_arms@mail.ru
 */
 
 // Limits on number of history records online and in Android app

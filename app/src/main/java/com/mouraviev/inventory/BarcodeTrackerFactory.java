@@ -1,5 +1,5 @@
 /*
-    Author: Artem Mouraviev ilinic8@mail.ru
+    Author: Artem M br_in_arms@mail.ru
  */
 package com.mouraviev.inventory;
 

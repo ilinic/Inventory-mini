@@ -1,6 +1,6 @@
 <?php
 /*
-Author: Artem Mouraviev ilinic8@mail.ru
+Author: Artem M br_in_arms@mail.ru
 */
 require('db.php');
 header('Content-Type: application/json');
