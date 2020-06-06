@@ -10,7 +10,7 @@ ONLINE PART:
 2. List history of changes (user, date, delta, etc.)
 3. Click on product# to generate QR code for printing
 4. To update product list - just edit products.csv file on hosting and refresh products page - red message will appear
-5. To update user list - just edit users.csv file on hosting and refresh products page - red message will appear
+5. To update user list - just edit users.csv file on hosting and refresh products page - red "users updated" or "products updated" string will appear on the page
 
 IMPORTANT:
 User ids or product ids (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
