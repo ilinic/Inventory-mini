@@ -40,4 +40,3 @@ INSTALLATION
 
 Author:
 Artem Mouraviev
-ilinic8@mail.ru
