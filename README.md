@@ -26,7 +26,7 @@ ANDROID PART:
 5. To change working (correct) server adsress (website) or userId - remove and reinstall application
 6. On inventory page - you can sort on product ID, name or quantity. And refresh list from server.
 7. On history page - just view last inventory changes
-8. Number of history items and product and history list appearances are partially customizable in db.php file
+8. Number of history items and product and history list appearances in Android app are partially customizable in db.php file (templates are provided)
 
 INSTALLATION
 1. get shared hosting or dedicated server with PHP and MySQL
