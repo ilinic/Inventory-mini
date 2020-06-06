@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(intent)
             finish()
+            overridePendingTransition(0, 0)
         }
 
         val siteEditText: EditText = findViewById(R.id.siteTextView)
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             val useridEditText: EditText = findViewById(R.id.userIdtextView)
 
             if (siteEditText.text.isEmpty() || useridEditText.text.isEmpty()) {
-                showToast("Введите данные логина")
+                showToast(getString(R.string.enter_login))
                 return@setOnClickListener
             }
 
@@ -89,19 +90,19 @@ class MainActivity : AppCompatActivity() {
                 httpClient.newCall(request).enqueue(
                         object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
-                                showToast("Ошибка. Проверьте соединение и данные")
+                                showToast(getString(R.string.html_error))
                             }
 
                             override fun onResponse(call: Call, response: Response) {
                                 if (!response.isSuccessful) {
-                                    showToast("Ошибка. Проверьте соединение и данные")
+                                    showToast(getString(R.string.html_error))
                                     return
                                 }
 
                                 var responseBody: ResponseBody? = response.body
 
                                 if (responseBody == null) {
-                                    showToast("Ошибка. Проверьте соединение и данные")
+                                    showToast(getString(R.string.html_error))
                                     return
                                 }
 
@@ -109,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                                 var responseMap: Map<String, Int> = gson.fromJson(responseBody.string(), object : TypeToken<Map<String, Int>>() {}.type)
 
                                 if (responseMap["err"] != 0) {
-                                    showToast("Ошибка. Проверьте соединение и данные")
+                                    showToast(getString(R.string.html_error))
                                     return
                                 }
 
@@ -119,11 +120,12 @@ class MainActivity : AppCompatActivity() {
 
                                 val intent = Intent(applicationContext, BarcodeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                                 startActivity(intent)
+                                overridePendingTransition(0, 0)
                             }
                         })
 
             } catch (e: Exception) {
-                showToast("Ошибка. Проверьте соединение и данные")
+                showToast(getString(R.string.html_error))
                 return@setOnClickListener
             }
         }

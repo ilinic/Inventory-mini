@@ -28,4 +28,5 @@
     <string name="prod_not_found">Не найден №</string>
     <string name="no_prod_error">Не указан продукт</string>
     <string name="check_data">. Проверьте данные</string>
+    <string name="enter_login">Введите данные логина</string>
 </resources>

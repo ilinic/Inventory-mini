@@ -101,6 +101,7 @@ public final class BarcodeActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), InventoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -109,6 +110,7 @@ public final class BarcodeActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HistoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -514,6 +516,7 @@ public final class BarcodeActivity extends AppCompatActivity
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
+                overridePendingTransition(0, 0);
             }
         };
 

@@ -72,6 +72,7 @@ public class HistoryActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), BarcodeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -81,6 +82,7 @@ public class HistoryActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), InventoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -119,5 +121,6 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        overridePendingTransition(0, 0);
     }
 }

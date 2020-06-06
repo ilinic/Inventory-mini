@@ -69,29 +69,20 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                     new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Message msg = new Message();
-                            msg.obj = "Ошибка. Проверьте соединение и данные";
-                            msg.what = InventoryActivity.MSG_ERROR;
-                            activityUIhandler.sendMessage(msg);
+                            activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_ERROR);
                         }
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) {
                             if (!response.isSuccessful()) {
-                                Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = InventoryActivity.MSG_ERROR;
-                                activityUIhandler.sendMessage(msg);
+                                activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_ERROR);
                                 return;
                             }
 
                             ResponseBody responseBody = response.body();
 
                             if (responseBody == null) {
-                                Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = InventoryActivity.MSG_ERROR;
-                                activityUIhandler.sendMessage(msg);
+                                activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_ERROR);
                                 return;
                             }
 
@@ -107,20 +98,14 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
                             } catch (Exception e) {
 
                                 Log.e("InventoryAdapter", "httpClient.onResponse", e);
-                                Message msg = new Message();
-                                msg.obj = "Ошибка. Проверьте соединение и данные";
-                                msg.what = InventoryActivity.MSG_ERROR;
-                                activityUIhandler.sendMessage(msg);
+                                activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_ERROR);
                             }
                         }
                     });
 
         } catch (Exception e) {
             Log.e("InventoryAdapter", "httpClient.newCall", e);
-            Message msg = new Message();
-            msg.obj = "Ошибка. Проверьте соединение и данные";
-            msg.what = InventoryActivity.MSG_ERROR;
-            activityUIhandler.sendMessage(msg);
+            activityUIhandler.sendEmptyMessage(InventoryActivity.MSG_ERROR);
         }
     }
 

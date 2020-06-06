@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +36,7 @@ public class InventoryActivity extends AppCompatActivity {
                         public void run() {
                             switch (msg1.what) {
                                 case MSG_ERROR:
-                                    Toast toast = Toast.makeText(getApplicationContext(), (String) msg1.obj, Toast.LENGTH_SHORT);
+                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.html_error), Toast.LENGTH_SHORT);
                                     toast.setGravity(Gravity.CENTER, 0, 0);
                                     toast.show();
                                     loadingPanel.setVisibility(View.INVISIBLE);
@@ -68,6 +69,7 @@ public class InventoryActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), BarcodeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -77,6 +79,7 @@ public class InventoryActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), HistoryActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -131,6 +134,7 @@ public class InventoryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        overridePendingTransition(0, 0);
     }
 
     synchronized private void updateMenu() {
