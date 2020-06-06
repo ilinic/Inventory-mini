@@ -2,6 +2,10 @@
 /*
 Author: Artem Mouraviev ilinic8@mail.ru
 */
+
+const __MAX_WEBSITE_HISTORY__ = 1000;   
+const __MAX_ANROID_APP_HISTORY__ = 200; 
+
 //$con = mysqli_connect("127.0.0.1", "my_user", "my_password", "my_db");
 $con = mysqli_connect("localhost", "samogo6c_sklad", "sklad123_", "samogo6c_sklad");
 // Check connection
@@ -221,5 +225,48 @@ function action($con, $userid, $prodid, $delta)
     return json_encode($row);
 }
 
+
+function get_inventory($con, $userid)
+{
+
+    $sel_query = "SELECT id FROM users WHERE id='$userid'";
+
+    $result = mysqli_query($con, $sel_query);
+    if (mysqli_num_rows($result) != 1) {
+        return "[]";
+    }
+    
+    $sel_query = "SELECT id, count AS cnt, prodname AS name FROM products";
+    $result = mysqli_query($con, $sel_query);
+    while($row = mysqli_fetch_assoc($result))
+        $res[] = $row;
+
+    return json_encode($res);
+}
+
+function get_history($con, $userid)
+{
+
+    $sel_query = "SELECT id FROM users WHERE id='$userid'";
+
+    $result = mysqli_query($con, $sel_query);
+    if (mysqli_num_rows($result) != 1) {
+        return "[]";
+    }
+    
+    //        String dt, unme, pnme, pid;
+    //        int d, bf, af;
+    
+    $sel_query = "Select actiondate, user AS unme, product AS pnme, prodid AS pid, delta AS d, count_before AS bf, count_after AS af FROM history ORDER BY actiondate DESC LIMIT " . __MAX_ANROID_APP_HISTORY__;
+    $result = mysqli_query($con, $sel_query);
+    while($row = mysqli_fetch_assoc($result))
+    {
+        $row["dt"] = date("H:i:s d M y",strtotime($row["actiondate"]));
+        unset($row["actiondate"]);
+        $res[] = $row;
+    }
+
+    return json_encode($res);
+}
 
 ?>

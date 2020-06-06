@@ -137,15 +137,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InvV
     public void onBindViewHolder(InvViewHolder holder, int position) {
         JsonWrapper el = data.get(position);
 
-        String id = String.format("№ %1$-8s", el.id);
-        String cnt = String.format(" ∑ %1$-4s", el.cnt);
-
         if (position % 2 == 0)
             holder.textView.setBackgroundColor(darkenColor);
         else
             holder.textView.setBackgroundColor(0x0);
 
-        holder.textView.setText(String.format("%s%s  %s", id, cnt, el.name));
+        holder.textView.setText(String.format("№ %1$-8s ∑ %1$-4s  %s", el.id, el.cnt, el.name));
     }
 
     @Override

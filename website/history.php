@@ -32,7 +32,7 @@ require('db.php');
 </thead>
 <tbody>
 <?php
-$sel_query=mysqli_real_escape_string($con,"Select * from history ORDER BY actiondate DESC LIMIT 1000");
+$sel_query=mysqli_real_escape_string($con,"Select * from history ORDER BY actiondate DESC LIMIT " . __MAX_WEBSITE_HISTORY__);
 $result = mysqli_query($con,$sel_query);
 while($row = mysqli_fetch_assoc($result)) { ?>
 <tr>

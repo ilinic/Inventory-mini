@@ -117,6 +117,4 @@ public class HistoryActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-
-
 }
