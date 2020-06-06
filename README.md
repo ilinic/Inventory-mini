@@ -23,7 +23,7 @@ ANDROID PART:
 2. Scan QR code, see product name and quantity, set quantity delta
 3. Manually enter product code in case of QR code scan error
 4. Manually enter delta, or hold + - buttons for faster value change
-5. To change working (correct) site or userId - remove and reinstall application
+5. To change working (correct) server adsress (website) or userId - remove and reinstall application
 
 INSTALLATION
 1. get shared hosting or dedicated server with PHP and MySQL
