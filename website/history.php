@@ -5,6 +5,12 @@ Author: Artem Mouraviev ilinic8@mail.ru
  
 require('db.php');
 
+if(!checkUserId($con, $_COOKIE['userid']))
+{
+    header('Location: login');
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,7 +21,7 @@ require('db.php');
 </head>
 <body>
 <div class="history">
-<div class="top"><p><a href=".">В список продуктов</a>&nbsp;&nbsp;</p></div>
+<div class="top"><p><a href=".">В список продуктов</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="logout">Выход</a>&nbsp;&nbsp;</p></div>    
 <p style="color:#ff0000;"><?php echo parse_users($con); ?></p>
 <p style="color:#ff0000;"><?php echo parse_products($con); ?></p>
 <h2>История операций</h2>

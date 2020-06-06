@@ -5,6 +5,11 @@ Author: Artem Mouraviev ilinic8@mail.ru
  
 require('db.php');
 
+if(!checkUserId($con, $_COOKIE['userid']))
+{
+    header('Location: login');
+    exit;
+}
 
 function sortLink($field){
 
@@ -34,7 +39,7 @@ function sortLink($field){
 <body>
 
 <div class="products">
-<div class="top"><p><a href="history">В историю</a>&nbsp;&nbsp;</p></div>    
+<div class="top"><p><a href="history">В историю</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="logout">Выход</a>&nbsp;&nbsp;</p></div>    
 <p style="color:#ff0000;"><?php echo parse_users($con); ?></p>
 <p style="color:#ff0000;"><?php echo parse_products($con); ?></p>
 <h2>Продукты на складе</h2>

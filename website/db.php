@@ -287,4 +287,18 @@ function get_history($con, $userid)
     return json_encode($res);
 }
 
+function checkUserId($con, $userid){
+    
+    if(!isset($userid))
+        return false;
+    
+    $sel_query = "SELECT id FROM users WHERE id='$userid'";
+
+    $result = mysqli_query($con, $sel_query);
+    if (mysqli_num_rows($result) == 1)
+        return true;
+    else
+        return false;
+}
+
 ?>
