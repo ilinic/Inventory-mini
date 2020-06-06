@@ -14,7 +14,8 @@ ONLINE PART:
 
 IMPORTANT:
 User ids or product ids (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
-User and product IDs should be UNIQUE STRINGS, otherwise errors will occur. Leading and trailing spaces are stripped.
+User IDs and product IDs should be UNIQUE STRINGS, otherwise errors will occur. 
+On user or product uploads leading and trailing spaces of IDs are stripped.
 When you perform product list update - quantities of preserved products will not change.
 
 ANDROID PART:
