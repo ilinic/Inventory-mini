@@ -13,14 +13,14 @@ ONLINE PART:
 5. To update user list - just edit users.csv file on hosting and refresh products page - red "users updated" string will appear on the page
 
 IMPORTANT:
-User ids or product ids (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
+User IDs or product IDs (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
 User IDs and product IDs should be UNIQUE STRINGS, otherwise errors will occur. 
 On user or product uploads leading and trailing spaces of IDs are stripped.
 When you perform product list update - quantities of preserved products will not change.
 
 ANDROID PART:
 1. Login using server address and userId (string alpha numeric + "_" + "-").
-2. Scan QR code, see product name and quantity, set quantity delta
+2. Scan QR code, see product name and quantity, set quantity delta, press send button
 3. Manually enter product code in case of QR code scan error
 4. Manually enter delta, or hold + - buttons for faster value change
 5. To change working (correct) server adsress (website) or userId - remove and reinstall application
@@ -38,4 +38,4 @@ INSTALLATION
 7. edit and verify correct data in products.csv and users.csv files
 8. verify correct access rights for php and csv files
 9. download and install android application APK from link on products page.
-10. provide full website address and userId (from users.csv file) in application to login.
+10. type FULL (with http...) website address and userId (from users.csv file) to application on login screen.
