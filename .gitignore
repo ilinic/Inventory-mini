@@ -1,13 +1,7 @@
 .idea
 .DS_Store
-
-# Built application files
 *.ap_
-
-# Files for the ART/Dalvik VM
 *.dex
-
-# Java class files
 *.class
 
 # Generated files
@@ -15,7 +9,6 @@ bin/
 gen/
 out/
 
-# Gradle files
 .gradle/
 build/
 
