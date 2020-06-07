@@ -41,8 +41,5 @@ ANDROID ПРИЛОЖЕНИЕ:
 9. Загрузите и установите на телефон Android приложение (inventory-mini.apk) по ссылке на странице склада.
 10. Введите корректные параметры доступа в экране логина в Android приложении.
 
-ЭКРАНЫ ANDROID ПРИЛОЖЕНИЯ:
-![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/login.png?raw=true) 
-![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/scan.png?raw=true) 
-![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/inv.png?raw=true) 
-![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/hist.png?raw=true)
+ЭКРАНЫ ANDROID ПРИЛОЖЕНИЯ:<br>
+![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/login.png?raw=true) ![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/scan.png?raw=true) ![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/inv.png?raw=true) ![alt text](https://github.com/ilinic/Inventory-mini/blob/master/screenshots/hist.png?raw=true)
