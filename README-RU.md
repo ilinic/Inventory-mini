@@ -1,6 +1,8 @@
 Inventory mini
 _________________
 
+Загрузить:     <a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website/inventory-mini.apk">APK</a>     <a id="raw-url" href="https://raw.githubusercontent.com/ilinic/Inventory-mini/master/website.rar">Website Archive</a>
+
 Система Склад мини позволяет отслеживать продукты на складе и историю изменений с помощью мобильного приложения + онлайн системы.
 
 Приложение Android позволяет сканировать QR код (инвентарный номер продукта #) и записывать изменения в количестве продуктов (используя имя пользователя, количество и дату изменения). Возможно сканировать номер продукта камерой или задать вручную, если есть проблемы со сканированием. 
