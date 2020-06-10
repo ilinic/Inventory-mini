@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mouraviev.inventory">
+    package="com.ilinic.inventory">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,17 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".InventoryActivity"
+            android:name="com.ilinic.inventory.InventoryActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".HistoryActivity"
+            android:name="com.ilinic.inventory.HistoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".BarcodeActivity"
+            android:name="com.ilinic.inventory.BarcodeActivity"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.ilinic.inventory.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

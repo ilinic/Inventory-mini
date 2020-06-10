@@ -33,7 +33,7 @@
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/logo" />
 
-        <com.mouraviev.inventory.CameraSourcePreview
+        <com.ilinic.inventory.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="400dp"
@@ -41,7 +41,7 @@
             android:clickable="false"
             android:focusable="false">
 
-        </com.mouraviev.inventory.CameraSourcePreview>
+        </com.ilinic.inventory.CameraSourcePreview>
 
     </LinearLayout>
 
