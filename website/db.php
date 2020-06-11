@@ -46,7 +46,7 @@ function parse_users($con)
         // Convert each line into the local $data variable
         while (($data = fgetcsv($h, 1000, ";")) !== false)
         {
-            if(preg_match('^[a-z\s\d-_]+$', $data[0]))
+            if(preg_match('^[a-zA-Z\s\d-_@]+$', $data[0]))
                 continue;
                 
             $sel_query = "INSERT INTO users (id, username, update_helper) VALUES('" . trim($data[0]) . "', '" . trim($data[1]) . "', 1) ON DUPLICATE KEY UPDATE username='" . trim($data[1]) . "', update_helper=1";
@@ -90,7 +90,7 @@ function parse_products($con)
         // Convert each line into the local $data variable
         while (($data = fgetcsv($h, 1000, ";")) !== false)
         {
-            if(preg_match('^[a-z\s\d-_]+$', $data[0]))
+            if(preg_match('^[a-zA-Z\s\d-_]+$', $data[0]))
                 continue;
             
             $sel_query = "INSERT INTO products (id, prodname, update_helper) VALUES('" . trim($data[0]) . "', '" . trim($data[1]) . "', 1) ON DUPLICATE KEY UPDATE prodname='" . trim($data[1]) . "', update_helper=1";
