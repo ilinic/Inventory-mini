@@ -16,7 +16,7 @@ ONLINE PART:
 6. To update user list - just edit users.csv file on hosting and refresh products page - red "users updated" string will appear on the page
 
 IMPORTANT:
-User IDs or product IDs (product#) are ALPHANUMERIC + "_" + "-" for greater flexibility.
+User IDs or product IDs (product#) are case sensitive ALPHANUMERIC + "_-" (and also "@" for userIDs) for greater flexibility.
 User IDs and product IDs should be UNIQUE STRINGS, otherwise errors will occur. 
 On user or product uploads leading and trailing spaces of IDs are stripped.
 When you perform product list update - quantities of preserved products will not change.
