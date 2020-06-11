@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Июн 05 2020 г., 05:42
+-- Время создания: Июн 11 2020 г., 17:35
 -- Версия сервера: 5.7.21-20-beget-5.7.21-20-1-log
 -- Версия PHP: 5.6.40
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Структура таблицы `config`
 --
 -- Создание: Май 24 2020 г., 02:50
--- Последнее обновление: Июн 05 2020 г., 02:17
+-- Последнее обновление: Июн 06 2020 г., 18:38
 --
 
 DROP TABLE IF EXISTS `config`;
@@ -51,7 +51,7 @@ INSERT INTO `config` (`param`, `value`) VALUES
 -- Структура таблицы `history`
 --
 -- Создание: Май 24 2020 г., 12:16
--- Последнее обновление: Июн 05 2020 г., 02:16
+-- Последнее обновление: Июн 11 2020 г., 14:31
 --
 
 DROP TABLE IF EXISTS `history`;
@@ -65,13 +65,11 @@ CREATE TABLE `history` (
   `prodid` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
 -- Структура таблицы `products`
 --
--- Создание: Май 24 2020 г., 11:10
--- Последнее обновление: Июн 05 2020 г., 02:16
+-- Создание: Июн 11 2020 г., 14:34
+-- Последнее обновление: Июн 11 2020 г., 14:31
 --
 
 DROP TABLE IF EXISTS `products`;
@@ -82,32 +80,20 @@ CREATE TABLE `products` (
   `update_helper` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+--------------------------------------------------------
 
 --
 -- Структура таблицы `users`
 --
--- Создание: Май 24 2020 г., 06:43
--- Последнее обновление: Июн 05 2020 г., 02:17
+-- Создание: Июн 11 2020 г., 14:30
 --
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` varchar(128) NOT NULL,
   `username` varchar(128) NOT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `trn_date` datetime DEFAULT NULL,
   `update_helper` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `trn_date`, `update_helper`) VALUES
-('134a30', 'John Smith', NULL, NULL, NULL, 1),
-('e2', 'Roy White', NULL, NULL, NULL, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -123,7 +109,9 @@ ALTER TABLE `history`
 -- Индексы таблицы `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `count` (`count`),
+  ADD KEY `prodname` (`prodname`);
 
 --
 -- Индексы таблицы `users`
