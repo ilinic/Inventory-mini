@@ -1,6 +1,6 @@
 <?php
 /*
-Author: Artem M br_in_arms@mail.ru
+Author: Artem Mouraviev ilinic8@mail.ru
 */
 
 // Limits on number of history records online and in Android app
@@ -13,7 +13,7 @@ const __HISTORY_TO_ANDROID_APP_FORMAT_STR_TOP__ = "%s 𝚫 %s ∑%s→%s №%s";
 const __HISTORY_TO_ANDROID_APP_FORMAT_STR_BOTTOM__ = "%s → %s"; // userName, productName
 
 //Database connection mysqli_connect("127.0.0.1", "my_user", "my_password", "my_db");
-$con = mysqli_connect("localhost", "db_user", "db_password", "db_name");
+$con = mysqli_connect("localhost", "samogo6c_sklad", "sklad123_", "samogo6c_sklad");
 
 // Check connection
 if (mysqli_connect_errno())
@@ -90,10 +90,13 @@ function parse_products($con)
         // Convert each line into the local $data variable
         while (($data = fgetcsv($h, 1000, ";")) !== false)
         {
-            if(preg_match('^[a-zA-Z\s\d-_]+$', $data[0]))
+            if(preg_match('^[a-zA-Z\s\d-_]+$', $data[0]) || $data[0]=="")
                 continue;
+                
+            if(!array_key_exists(2, $data))
+                $data[2] = "1";
             
-            $sel_query = "INSERT INTO products (id, prodname, update_helper) VALUES('" . trim($data[0]) . "', '" . trim($data[1]) . "', 1) ON DUPLICATE KEY UPDATE prodname='" . trim($data[1]) . "', update_helper=1";
+            $sel_query = "INSERT INTO products (id, prodname, count, update_helper) VALUES('" . trim($data[0]) . "', '" . trim($data[1]) . "','" . $data[2] . "',1) ON DUPLICATE KEY UPDATE prodname='" . trim($data[1]) . "', update_helper=1";
             if (!mysqli_query($con, $sel_query)) return "Ошибка чтения списка продуктов 3 " . mysqli_error($con);
         }
 
