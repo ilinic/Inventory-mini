@@ -26,6 +26,11 @@ a:hover {
 	margin: 0 auto;
 }
 
+.printed {
+	width: 80%;
+	margin: 0 auto;
+}
+
 .history {
 	width: 70%;
 	margin: 0 auto;
@@ -33,7 +38,7 @@ a:hover {
 
 .top {
 	text-align: right;
-	line-height: 30px;
+	margin-top: 0px;
 }
 
 h2{
@@ -102,4 +107,9 @@ table {
 	width:100px;
 	height:30px;
 	/*border-color: #017572;*/
+}
+
+.logo{
+    margin-top: 10px;
+    max-height: 40px; 
 }
