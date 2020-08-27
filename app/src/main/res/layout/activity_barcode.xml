@@ -8,55 +8,64 @@
     android:layout_weight="0"
     android:background="@drawable/gradient_bg">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+    <com.ilinic.inventory.CameraSourcePreview
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center_horizontal"
-        android:keepScreenOn="true"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/logoView"
+        app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/logoView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:contentDescription="@string/app_name"
-            android:paddingLeft="50dp"
-            android:paddingTop="10dp"
-            android:paddingRight="50dp"
-            android:paddingBottom="10dp"
-            app:srcCompat="@drawable/logo" />
+    </com.ilinic.inventory.CameraSourcePreview>
 
-        <com.ilinic.inventory.CameraSourcePreview
-            android:id="@+id/preview"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:focusable="false">
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="СКЛАД"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toBottomOf="@+id/logoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/logoView"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        </com.ilinic.inventory.CameraSourcePreview>
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_weight="0"
+        android:contentDescription="@string/app_name"
+        android:paddingLeft="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logo_beer" />
 
     <ImageButton
         android:id="@+id/enterCodeBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
         android:tint="#aaaaaa"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/preview"
         app:srcCompat="@drawable/edit" />
 
     <EditText
@@ -97,7 +106,7 @@
         app:layout_constraintBottom_toTopOf="@id/sendBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+        app:layout_constraintTop_toBottomOf="@+id/preview">
 
         <ImageButton
             android:id="@+id/plusBtn"
@@ -169,8 +178,9 @@
         android:id="@+id/descText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginBottom="8dp"
         android:background="@null"
         android:contentDescription="@string/app_name"
         android:ems="10"
@@ -181,14 +191,11 @@
         android:maxHeight="80dp"
         android:maxLines="2"
         android:minLines="1"
-        android:paddingStart="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:text="@string/hint"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="@id/linearLayout1"
-        app:layout_constraintEnd_toEndOf="@id/linearLayout1"
-        app:layout_constraintLeft_toLeftOf="@id/linearLayout1" />
+        app:layout_constraintBottom_toBottomOf="@+id/preview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -212,7 +219,7 @@
             android:contentDescription="history"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:tint="#E91E63"
+            android:tint="@color/colorAccent"
             android:visibility="visible"
             app:srcCompat="@drawable/ic_photobtn" />
 

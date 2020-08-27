@@ -19,6 +19,7 @@ IMPORTANT:
 User IDs or product IDs (product#) are case sensitive ALPHANUMERIC + "_-" (and also "@" for userIDs) for greater flexibility.
 User IDs and product IDs should be UNIQUE STRINGS, otherwise errors will occur. 
 On user or product uploads leading and trailing spaces of IDs are stripped.
+Product CSV has format ID;product_name;initial_quantity
 When you perform product list update - quantities of preserved products will not change.
 
 ANDROID PART:
